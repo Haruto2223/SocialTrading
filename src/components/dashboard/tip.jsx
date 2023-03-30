@@ -1,138 +1,160 @@
-import { useState, useRef, useEffect } from 'react';
+import React, {useState} from "react";
+import Carousel from "react-multi-carousel";
+import "./tip.css";
 
-// Data
-import data from './data.json';
-
-const Carousel = () => {
-  const maxScrollWidth = useRef(0);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const carousel = useRef(null);
-
-  const movePrev = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex((prevState) => prevState - 1);
-    }
-  };
-
-  const moveNext = () => {
-    if (
-      carousel.current !== null &&
-      carousel.current.offsetWidth * currentIndex <= maxScrollWidth.current
-    ) {
-      setCurrentIndex((prevState) => prevState + 1);
-    }
-  };
-
-  const isDisabled = (direction) => {
-    if (direction === 'prev') {
-      return currentIndex <= 0;
-    }
-
-    if (direction === 'next' && carousel.current !== null) {
-      return (
-        carousel.current.offsetWidth * currentIndex >= maxScrollWidth.current
-      );
-    }
-
-    return false;
-  };
-
-  useEffect(() => {
-    if (carousel !== null && carousel.current !== null) {
-      carousel.current.scrollLeft = carousel.current.offsetWidth * currentIndex;
-    }
-  }, [currentIndex]);
-
-  useEffect(() => {
-    maxScrollWidth.current = carousel.current ? carousel.current.scrollWidth - carousel.current.offsetWidth : 0;
-  }, []);
-
-  return (
-    <div className="carousel my-12 mx-auto">
-      <h2 className="text-4xl leading-8 font-semibold mb-12 text-slate-700">
-        Our epic carousel
-      </h2>
-      <div className="relative overflow-hidden">
-        <div className="flex justify-between absolute top left w-full h-full">
-          <button
-            onClick={movePrev}
-            className="hover:bg-blue-900/75 text-white w-10 h-full text-center opacity-75 hover:opacity-100 disabled:opacity-25 disabled:cursor-not-allowed z-10 p-0 m-0 transition-all ease-in-out duration-300"
-            disabled={isDisabled('prev')}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-12 w-20 -ml-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            <span className="sr-only">Prev</span>
-          </button>
-          <button
-            onClick={moveNext}
-            className="hover:bg-blue-900/75 text-white w-10 h-full text-center opacity-75 hover:opacity-100 disabled:opacity-25 disabled:cursor-not-allowed z-10 p-0 m-0 transition-all ease-in-out duration-300"
-            disabled={isDisabled('next')}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-12 w-20 -ml-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-            <span className="sr-only">Next</span>
-          </button>
-        </div>
-        <div
-          ref={carousel}
-          className="carousel-container relative flex gap-1 overflow-hidden scroll-smooth snap-x snap-mandatory touch-pan-x z-0"
-        >
-          {data.resources.map((resource, index) => {
-            return (
-              <div
-                key={index}
-                className="carousel-item text-center relative w-64 h-64 snap-start"
-              >
-                <a
-                  href={resource.link}
-                  className="h-full w-full aspect-square block bg-origin-padding bg-left-top bg-cover bg-no-repeat z-0"
-                  style={{ backgroundImage: `url(${resource.imageUrl || ''})` }}
-                >
-                  <img
-                    src={resource.imageUrl || ''}
-                    alt={resource.title}
-                    className="w-full aspect-square hidden"
-                  />
-                </a>
-                <a
-                  href={resource.link}
-                  className="h-full w-full aspect-square block absolute top-0 left-0 transition-opacity duration-300 opacity-0 hover:opacity-100 bg-blue-800/75 z-10"
-                >
-                  <h3 className="text-white py-6 px-3 mx-auto text-xl">
-                    {resource.title}
-                  </h3>
-                </a>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
+const responsive = {
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 3
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1
+  }
 };
 
-export default Carousel;
+class WithScrollbar extends React.Component {
+  state = { additionalTransfrom: 0 };
+  render() {
+    const CustomSlider = ({ carouselState }) => {
+      let value = 0;
+      let carouselItemWidth = 0;
+      if (this.Carousel) {
+        carouselItemWidth = this.Carousel.state.itemWidth;
+        const maxTranslateX = Math.round(
+          // so that we don't over-slide
+          carouselItemWidth *
+            (this.Carousel.state.totalItems -
+              this.Carousel.state.slidesToShow) +
+            150
+        );
+        value = maxTranslateX / 100; // calculate the unit of transform for the slider
+      }
+      const { transform } = carouselState;
+      return (
+        <div className="custom-slider">
+          <input
+            type="range"
+            value={Math.round(Math.abs(transform) / value)}
+            defaultValue={0}
+            max={
+              (carouselItemWidth *
+                (carouselState.totalItems - carouselState.slidesToShow) +
+                (this.state.additionalTransfrom === 150 ? 0 : 150)) /
+              value
+            }
+            onChange={e => {
+              if (this.Carousel.isAnimationAllowed) {
+                this.Carousel.isAnimationAllowed = false;
+              }
+              const nextTransform = e.target.value * value;
+              const nextSlide = Math.round(nextTransform / carouselItemWidth);
+              if (
+                e.target.value == 0 &&
+                this.state.additionalTransfrom === 150
+              ) {
+                this.Carousel.isAnimationAllowed = true;
+                this.setState({ additionalTransfrom: 0 });
+              }
+              this.Carousel.setState({
+                transform: -nextTransform, // padding 20px and 5 items.
+                currentSlide: nextSlide
+              });
+            }}
+            className="custom-slider__input"
+          />
+        </div>
+      );
+    };
+    return (
+      <Carousel
+        ssr={false}
+        ref={el => (this.Carousel = el)}
+        partialVisbile={false}
+        customButtonGroup={<CustomSlider />}
+        itemClass="slider-image-item"
+        responsive={responsive}
+        containerClass="carousel-container-with-scrollbar"
+        additionalTransfrom={-this.state.additionalTransfrom}
+        beforeChange={nextSlide => {
+          if (nextSlide !== 0 && this.state.additionalTransfrom !== 150) {
+            this.setState({ additionalTransfrom: 150 });
+          }
+          if (nextSlide === 0 && this.state.additionalTransfrom === 150) {
+            this.setState({ additionalTransfrom: 0 });
+          }
+        }}
+      >
+        <div class="image-container increase-size">
+          <div class="image-container-text">
+            <p>1</p>
+          </div>
+          <img
+            draggable={false}
+            style={{ width: "100%", cursor: "pointer" }}
+            src="https://images.unsplash.com/photo-1549989476-69a92fa57c36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+          />
+        </div>
+        <div class="increase-size">
+          <div class="image-container-text">
+            <p>2</p>
+          </div>
+          <img
+            draggable={false}
+            style={{ width: "100%", cursor: "pointer" }}
+            src="https://images.unsplash.com/photo-1549396535-c11d5c55b9df?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60"
+          />
+        </div>
+
+        <div class="image-container increase-size">
+          <div class="image-container-text">
+            <p>3</p>
+          </div>
+          <img
+            draggable={false}
+            style={{ width: "100%", cursor: "pointer" }}
+            src="https://images.unsplash.com/photo-1550133730-695473e544be?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+          />
+        </div>
+
+        <div class="image-container increase-size">
+          <div class="image-container-text">
+            <p>4</p>
+          </div>
+          <img
+            draggable={false}
+            style={{ width: "100%", cursor: "pointer" }}
+            src="https://images.unsplash.com/photo-1550167164-1b67c2be3973?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+          />
+        </div>
+
+        <div class="image-container increase-size">
+          <div class="image-container-text">
+            <p>5</p>
+          </div>
+          <img
+            draggable={false}
+            style={{ width: "100%", cursor: "pointer" }}
+            src="https://images.unsplash.com/photo-1550353175-a3611868086b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+          />
+        </div>
+        <div class="image-container increase-size">
+          <div class="image-container-text">
+            <p>6</p>
+          </div>
+          <img
+            draggable={false}
+            style={{ width: "100%", cursor: "pointer" }}
+            src="https://images.unsplash.com/flagged/photo-1556091766-9b818bc73fad?ixlib=rb-1.2.1&auto=format&fit=crop&w=1504&q=80"
+          />
+        </div>
+      </Carousel>
+    );
+  }
+}
+
+export default WithScrollbar;

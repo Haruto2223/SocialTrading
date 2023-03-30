@@ -5,12 +5,11 @@ import BreadCrumb from "../components/dashboard/Carousel";
 
 const DashBoard = () => {
     return (
-        <div>
+        <>
             <Navbar/>
             <WorkContext/>
             <BreadCrumb/>
-            {/* <Navbar/> */}
-        </div>
+        </>
     )
 }
 
