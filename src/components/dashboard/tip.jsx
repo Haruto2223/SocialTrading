@@ -76,9 +76,9 @@ class WithScrollbar extends React.Component {
         ref={el => (this.Carousel = el)}
         partialVisbile={false}
         customButtonGroup={<CustomSlider />}
-        itemClass="slider-image-item"
+        itemclassName="slider-image-item"
         responsive={responsive}
-        containerClass="carousel-container-with-scrollbar"
+        containerclassName="carousel-container-with-scrollbar"
         additionalTransfrom={-this.state.additionalTransfrom}
         beforeChange={nextSlide => {
           if (nextSlide !== 0 && this.state.additionalTransfrom !== 150) {
@@ -89,8 +89,8 @@ class WithScrollbar extends React.Component {
           }
         }}
       >
-        <div class="image-container increase-size">
-          <div class="image-container-text">
+        <div className="image-container increase-size">
+          <div className="image-container-text">
             <p>1</p>
           </div>
           <img
@@ -99,8 +99,8 @@ class WithScrollbar extends React.Component {
             src="https://images.unsplash.com/photo-1549989476-69a92fa57c36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
           />
         </div>
-        <div class="increase-size">
-          <div class="image-container-text">
+        <div className="increase-size">
+          <div className="image-container-text">
             <p>2</p>
           </div>
           <img
@@ -110,8 +110,8 @@ class WithScrollbar extends React.Component {
           />
         </div>
 
-        <div class="image-container increase-size">
-          <div class="image-container-text">
+        <div className="image-container increase-size">
+          <div className="image-container-text">
             <p>3</p>
           </div>
           <img
@@ -121,8 +121,8 @@ class WithScrollbar extends React.Component {
           />
         </div>
 
-        <div class="image-container increase-size">
-          <div class="image-container-text">
+        <div className="image-container increase-size">
+          <div className="image-container-text">
             <p>4</p>
           </div>
           <img
@@ -132,8 +132,8 @@ class WithScrollbar extends React.Component {
           />
         </div>
 
-        <div class="image-container increase-size">
-          <div class="image-container-text">
+        <div className="image-container increase-size">
+          <div className="image-container-text">
             <p>5</p>
           </div>
           <img
@@ -142,8 +142,8 @@ class WithScrollbar extends React.Component {
             src="https://images.unsplash.com/photo-1550353175-a3611868086b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
           />
         </div>
-        <div class="image-container increase-size">
-          <div class="image-container-text">
+        <div className="image-container increase-size">
+          <div className="image-container-text">
             <p>6</p>
           </div>
           <img
