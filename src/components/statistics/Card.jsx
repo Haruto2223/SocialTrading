@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -53,7 +54,7 @@ export const data = {
 
 const Card = ({ title, content }) => {
     return (
-        <>
+        <Link to="/widget">
             <div className="flex justify-center py-5">
                 <div className="block max-w-sm rounded-lg bg-white shadow-lg dark:bg-neutral-700">
                     <div className="flex justify-between pr-10">
@@ -80,7 +81,7 @@ const Card = ({ title, content }) => {
                     <Line options={options} data={data} className='w-100 h-100' />
                 </div>
             </div>
-        </>
+        </Link>
     )
 }
 
