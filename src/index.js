@@ -10,6 +10,7 @@ import Register from './pages/auth/Register'
 import Dashboard from './pages/Dashboard'
 import Statistics from './pages/Statistics';
 import Widget from './pages/Widget';
+import LiveAccount from './pages/LiveAccount';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -20,6 +21,7 @@ root.render(
       <Route path='dashboard' element={<Dashboard/>} />
       <Route path='statistics' element={<Statistics/>} />
       <Route path='widget' element={<Widget/>} />
+      <Route path='liveaccount' element={<LiveAccount/>} />
     </Routes>
   </Router>
 );

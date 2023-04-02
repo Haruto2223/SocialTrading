@@ -4,7 +4,7 @@ import WidgetCard from '../components/widgetCard/WidgetCard';
 
 const Widget = () => {
     return (
-        <>
+        <div className='bg-slate-100'>
             <Banner />
             <div className='p-20'>
                 <div className='text-4xl text-amber-300 flex items-center'>
@@ -12,7 +12,7 @@ const Widget = () => {
                 </div>
             </div>
             <WidgetCard/>
-        </>
+        </div>
     )
 }
 
