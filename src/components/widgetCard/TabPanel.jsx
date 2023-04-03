@@ -57,11 +57,11 @@ const TabPanel = () => {
                     <p className="uppercase text-center text-5xl">return/period</p>
                     <p className="text-center text-xl mt-5">Information about the account's return changes over time</p>
                     <div className="flex space-x-10 m-20">
-                        <div className="bg-slate-200 px-10 py-5 flex-1 text-center rounded-3xl">
+                        <div className="bg-slate-200 px-10 py-5 flex-1 text-center rounded-3xl max-w-[14%] ">
                             <p className="text-3xl text-[#BB914A]">2164.69%</p>
                             <p className="mt-2 text-sm">All time</p>
                         </div>
-                        <div className="bg-slate-200 px-10 py-5 flex-1 text-center rounded-3xl">
+                        <div className="bg-slate-200 px-10 py-5 flex-1 text-center rounded-3xl max-w-[150px] break-words">
                             <p className="text-3xl text-[#BB914A]">0</p>
                             <p className="mt-2 text-sm">All time</p>
                         </div>

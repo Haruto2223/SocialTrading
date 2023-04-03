@@ -2,10 +2,10 @@ import React from "react";
 
 const Register = () => {
     return (
-        <div className="py-8 px-8 max-w-4xl mx-auto mt-24 border border-black-400 bg-white rounded-xl shadow-lg space-y-2 ">
-            <div className="text-center space-y-2 sm:text-left">
-                <div className="grid grid-cols-3 gap-4 ">
-                    <div className="col-span-2 border-r-2 text-align-center gap-2">
+        <div className="py-8 px-8 md:max-w-4xl md:w-1/2 mx-auto mt-24 border border-black-400 bg-white rounded-xl shadow-lg space-y-2 ">
+            <div className="text-center space-y-2 ">
+                <div className="md:flex">
+                    <div className="md:flex-2 md:border-r-2 text-align-center gap-2">
                         <p className="text-5xl text-center">
                             <span className="bg-gradient-to-r from-amber-400 to-red-600 bg-clip-text text-transparent">MultiBank </span>
                             <span className="text-indigo-900" >Group</span>
@@ -51,7 +51,7 @@ const Register = () => {
                             <button className=" bg-purple-900 text-white w-40 h-10 mt-10 rounded ">Register</button>
                         </div>  
                     </div>
-                    <div className="col-span-1">
+                    <div className="md:flex-1">
                         <h1 className="text-4xl text-center mb-2">Details</h1>
                         <p className="text-center">Information about the chosen provider and subscription conditions</p>
                     </div>
