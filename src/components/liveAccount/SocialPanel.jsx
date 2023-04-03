@@ -22,7 +22,7 @@ const SocialPanel = () => {
                 <div className="col-span-2 text-center text-2xl relative top-3"><p>or</p></div>
                 <div className="col-span-4 border-b-2 border-slate-400"></div>
             </div>
-            <div className="text-center mt-10 text-2xl">
+            <div className="text-center mt-10 text-2xl text-slate-600">
                 Please fill the below form in 3 easy steps, it will only take 1-2 minutes to start trading
             </div>
         </div>
