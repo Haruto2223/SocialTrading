@@ -9,6 +9,7 @@
     "autoprefixer": "^10.4.14",
     "better-react-carousel": "^1.1.1",
     "chart.js": "^4.2.1",
+    "concurrently": "^8.0.1",
     "express": "^4.18.2",
     "faker": "^6.6.6",
     "flowbite": "^1.6.4",
@@ -34,6 +35,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "dev": "concurrently \"npm start\" \"npm run server\"",
+    "server": "npm start --prefix server",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
