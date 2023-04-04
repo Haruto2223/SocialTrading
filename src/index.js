@@ -10,7 +10,7 @@ import Register from './pages/auth/Register'
 import Dashboard from './pages/Dashboard'
 import Statistics from './pages/Statistics';
 import Widget from './pages/Widget';
-import LiveAccount from './pages/LiveAccount';
+import LiveAccount from './pages/auth/LiveAccount';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
