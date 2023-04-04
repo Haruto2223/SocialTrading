@@ -8,7 +8,7 @@ const PersonalInformation = ({change}) => {
 
     useEffect(() => {
         change({category, firstName, lastName, email});
-    }, [category, firstName, lastName, email, change])
+    }, [category, firstName, lastName, email, change]);
 
     const categoryOnChange = e => setCategory(e.target.value);
     const firstNameOnChange = e => setFirstName(e.target.value);

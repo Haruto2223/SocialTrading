@@ -4,6 +4,8 @@ import './index.css';
 import './styles.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store';
 
 import Login from './pages/auth/Login'
 import Register from './pages/auth/Register'
@@ -14,16 +16,18 @@ import LiveAccount from './pages/auth/LiveAccount';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Router>
-    <Routes>
-      <Route path='register' element={<Register/>} />
-      <Route path='login' element={<Login/>} />
-      <Route path='dashboard' element={<Dashboard/>} />
-      <Route path='statistics' element={<Statistics/>} />
-      <Route path='widget' element={<Widget/>} />
-      <Route path='liveaccount' element={<LiveAccount/>} />
-    </Routes>
-  </Router>
+  <Provider store={store}>
+    <Router>
+      <Routes>
+        <Route path='register' element={<Register />} />
+        <Route path='login' element={<Login />} />
+        <Route path='dashboard' element={<Dashboard />} />
+        <Route path='statistics' element={<Statistics />} />
+        <Route path='widget' element={<Widget />} />
+        <Route path='liveaccount' element={<LiveAccount />} />
+      </Routes>
+    </Router>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

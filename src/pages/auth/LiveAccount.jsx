@@ -3,7 +3,7 @@ import PersonalInformation from "../../components/liveAccount/PersonalInformatio
 import CreatePassword from "../../components/liveAccount/CreatePassword";
 import Footer from "../../components/liveAccount/Footer";
 
-import { ClientRegister } from "../../APIService/Service";
+import { register } from "../../actions/auth";
 import React, {useState, useCallback} from "react";
 
 const LiveAccount = () => {
@@ -23,7 +23,7 @@ const LiveAccount = () => {
         })
     }, [])
 
-    const handleOnClick = () => ClientRegister(personal);
+    const handleOnClick = () => register(personal);
 
     return (
         <div className="bg-slate-200">
