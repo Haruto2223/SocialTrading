@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { logout } from "../../actions/auth";
-// import { Navigate } from "react-router";
 
 const Navbar = ({ logout, isAuthenticated }) => {
 

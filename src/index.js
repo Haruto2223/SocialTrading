@@ -13,6 +13,7 @@ import Dashboard from './pages/Dashboard'
 import Statistics from './pages/Statistics';
 import Widget from './pages/Widget';
 import LiveAccount from './pages/auth/LiveAccount';
+import CopyConfirm from './pages/CopyConfirm';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -25,6 +26,7 @@ root.render(
         <Route path='statistics' element={<Statistics />} />
         <Route path='widget' element={<Widget />} />
         <Route path='liveaccount' element={<LiveAccount />} />
+        <Route path='copyconfirm' element={<CopyConfirm/>}/>
       </Routes>
     </Router>
   </Provider>

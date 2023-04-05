@@ -5,6 +5,25 @@ const { check, validationResult } = require('express-validator');
 
 router.get('/', (req, res) => console.log(req.user))
 
+router.post('/login', async(req, res) => {
+    const {email, password} = req.body;
+    try{
+        let user = await Client.findOne({email});
+        if(!user)
+        {
+            return res.status(401).json({mag: 'User not found'});
+        }
+        if(password !== user.password)
+        {
+            return res.status(400).json({msg: 'Password incorrect'});
+        }
+        res.json({user: user.id});
+    } catch(e)
+    {
+        res.status(500).send({msg: 'Server Error'})
+    }
+})
+
 router.post('/',
     check('firstName', 'FirstName is required').notEmpty(),
     check('lastName', 'LastName is required').notEmpty(),

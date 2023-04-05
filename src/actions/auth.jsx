@@ -42,7 +42,7 @@ export const register = (data) => async (dispatch) => {
       type: REGISTER_SUCCESS,
       payload: res.data
     });
-    dispatch(loadUser());
+    // dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -57,18 +57,17 @@ export const register = (data) => async (dispatch) => {
 };
 
 // Login User
-export const login = (email, password) => async (dispatch) => {
-  const body = { email, password };
+export const login = (payload) => async (dispatch) => {
 
   try {
-    const res = await api.post('/auth', body);
+    const res = await api.post('/client/login', payload);
 
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data
     });
 
-    dispatch(loadUser());
+    // dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
 
