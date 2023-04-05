@@ -3,9 +3,9 @@ import {
   REGISTER_FAIL,
   USER_LOADED,
   AUTH_ERROR,
-//   LOGIN_SUCCESS,
-//   LOGIN_FAIL,
-//   LOGOUT
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  LOGOUT
 } from './types';
 import api from '../APIService/api';
 import { setAlert } from './alert';
@@ -20,7 +20,7 @@ import { setAlert } from './alert';
 // Load User
 export const loadUser = () => async (dispatch) => {
   try {
-    const res = await api.get('/auth');
+    const res = await api.get('/');
 
     dispatch({
       type: USER_LOADED,
@@ -34,9 +34,9 @@ export const loadUser = () => async (dispatch) => {
 };
 
 // Register User
-export const register = (formData) => async (dispatch) => {
+export const register = (data) => async (dispatch) => {
   try {
-    const res = await api.post('/client', {formData});
+    const res = await api.post('/client', data);
 
     dispatch({
       type: REGISTER_SUCCESS,
@@ -57,30 +57,30 @@ export const register = (formData) => async (dispatch) => {
 };
 
 // Login User
-// export const login = (email, password) => async (dispatch) => {
-//   const body = { email, password };
+export const login = (email, password) => async (dispatch) => {
+  const body = { email, password };
 
-//   try {
-//     const res = await api.post('/auth', body);
+  try {
+    const res = await api.post('/auth', body);
 
-//     dispatch({
-//       type: LOGIN_SUCCESS,
-//       payload: res.data
-//     });
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: res.data
+    });
 
-//     dispatch(loadUser());
-//   } catch (err) {
-//     const errors = err.response.data.errors;
+    dispatch(loadUser());
+  } catch (err) {
+    const errors = err.response.data.errors;
 
-//     if (errors) {
-//       errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
-//     }
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    }
 
-//     dispatch({
-//       type: LOGIN_FAIL
-//     });
-//   }
-// };
+    dispatch({
+      type: LOGIN_FAIL
+    });
+  }
+};
 
-// // Logout
-// export const logout = () => ({ type: LOGOUT });
+// Logout
+export const logout = () => ({ type: LOGOUT });

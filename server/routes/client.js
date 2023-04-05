@@ -3,6 +3,8 @@ const router = express.Router();
 const Client = require('../models/Client');
 const { check, validationResult } = require('express-validator');
 
+router.get('/', (req, res) => console.log(req.user))
+
 router.post('/',
     check('firstName', 'FirstName is required').notEmpty(),
     check('lastName', 'LastName is required').notEmpty(),

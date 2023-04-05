@@ -1,4 +1,10 @@
-const Navbar = () => {
+import React from "react";
+import { connect } from "react-redux";
+import { logout } from "../../actions/auth";
+// import { Navigate } from "react-router";
+
+const Navbar = ({ logout, isAuthenticated }) => {
+
     return (
         <nav className="bg-[#000850] border-gray-200 px-2 sm:px-4 py-7 rounded">
             <div className="container flex flex-wrap items-center justify-between mx-auto">
@@ -26,7 +32,9 @@ const Navbar = () => {
                             <a href="/register" className="py-2 pl-3 pr-4 text-white text-2xl rounded hover:text-[#BB914A]">Tools</a>
                         </li>
                         <li>
-                            <a href="/register" className="py-2 pl-3 pr-4 text-white text-2xl rounded hover:text-[#BB914A]">Partnership</a>
+                            <div onClick={() => logout()} className="hover:cursor-pointer pl-3 pr-4 text-white text-2xl rounded hover:text-[#BB914A]">
+                                {isAuthenticated ? 'Logout' : 'Login'}
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -36,4 +44,8 @@ const Navbar = () => {
     )
 }
 
-export default Navbar;
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+})
+
+export default connect(mapStateToProps, { logout })(Navbar);
