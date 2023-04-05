@@ -3,7 +3,16 @@ const router = express.Router();
 const Client = require('../models/Client');
 const { check, validationResult } = require('express-validator');
 
-router.get('/', (req, res) => console.log(req.user))
+//get all users
+router.get('/', async(req, res) => {
+    try{
+        const clients = await Client.find();
+        res.json(clients);
+    } catch(err)
+    {
+
+    }
+})
 
 router.post('/login', async(req, res) => {
     const {email, password} = req.body;
@@ -11,7 +20,7 @@ router.post('/login', async(req, res) => {
         let user = await Client.findOne({email});
         if(!user)
         {
-            return res.status(401).json({mag: 'User not found'});
+            return res.status(401).json({msg: 'User not found'});
         }
         if(password !== user.password)
         {

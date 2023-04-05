@@ -72,7 +72,7 @@ const Card = ({ title, content }) => {
               alt="avatar" />
           </a>
           <button
-            type="button" onClick={handleOnclick} className="rounded-xl bg-white outline outline-3 outline-blue-900 text-black mt-10 w-1/3 h-1/2">
+            type="button" onClick={handleOnclick} className="rounded-xl text-xl hover:bg-[#bb914a] hover:text-white font-bold bg-white outline outline-1 outline-[#bb914a] text-black mt-10 w-1/3 h-1/2">
             Copy
           </button>
         </div>

@@ -27,7 +27,7 @@ const CopyConfirm = () => {
     }
 
     return (
-        <div className="bg-[#010D4B] py-96">
+        <div className="bg-[#0c014b] py-[418px]">
             <div className="mx-auto bg-slate-200 px-20 py-20 max-w-screen-xl">
                 <p className="text-center text-6xl text-[#010D4B]">Copy Strategy</p>
                 <div className="mt-10 flex justify-between space-x-5">

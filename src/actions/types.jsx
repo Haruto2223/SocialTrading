@@ -7,3 +7,6 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 export const SET_ALERT = "SET_ALERT";
 export const REMOVE_ALERT = "REMOVE_ALERT";
+export const SET_PROVIDER = "SET_PROVIDER";
+export const SET_STRATEGY = "SET_STRATEGY";
+export const FIND_ALL_USERS = "FIND_ALL_USERS";

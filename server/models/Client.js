@@ -27,6 +27,10 @@ const ClientSchema = new Schema({
         type: String,
         enum: ['individual', 'corporate'],
         default: 'individual'
+    },
+    data: {
+        type: Array,
+        default: [100, 360, 720, 1000, 800, 650, 400]
     }
 })
 
