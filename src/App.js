@@ -10,19 +10,20 @@ import { LOGOUT } from './actions/types';
 import setAuthToken from './APIService/setAuthToken';
 
 import Login from './pages/auth/Login'
-import Register from './pages/auth/Register'
 import Dashboard from './pages/Dashboard'
 import Statistics from './pages/Statistics';
 import Widget from './pages/Widget';
-import LiveAccount from './pages/auth/LiveAccount';
+import Register from './pages/auth/Register';
 import CopyConfirm from './pages/CopyConfirm';
+import Navbar from './components/dashboard/Navbar';
+import PrivateRoute from './PrivateRoute';
 
 function App() {
   useEffect(() => {
     if (localStorage.token) setAuthToken(localStorage.token);
 
     store.dispatch(loadUser());
-    
+
     window.addEventListener('storage', () => {
       if (!localStorage.token) store.dispatch({ type: LOGOUT })
     })
@@ -31,14 +32,14 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
+        <Navbar />
         <Routes>
           <Route path='register' element={<Register />} />
           <Route path='login' element={<Login />} />
           <Route path='/' element={<Dashboard />} />
-          <Route path='statistics' element={<Statistics />} />
-          <Route path='widget/:id' element={<Widget />} />
-          <Route path='liveaccount' element={<LiveAccount />} />
-          <Route path='copyconfirm' element={<CopyConfirm />} />
+          <Route path='statistics' element={<PrivateRoute component={Statistics}/>} />
+          <Route path='widget/:id' element={<PrivateRoute component={Widget}/>} />
+          <Route path='copyconfirm' element={<PrivateRoute component={CopyConfirm} />} />
         </Routes>
       </Router>
     </Provider>

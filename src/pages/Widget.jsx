@@ -3,16 +3,20 @@ import Banner from '../components/statistics/Banner'
 import { Link, useParams } from 'react-router-dom';
 import WidgetCard from '../components/widgetCard/WidgetCard';
 import { connect } from 'react-redux';
-import { getClient } from '../actions/clients';
+import { getClient, clearClient } from '../actions/clients';
+import Spinner from '../Spiner';
 
-const Widget = ({ getClient, clients }) => {
+const Widget = ({ getClient, clearClient, client: {client, loading} }) => {
     const { id } = useParams();
     useEffect(() => {
         getClient(id);
-    }, [getClient, id])
-    const client = clients.filter(item => id === item._id)[0];
+        return () => {
+            clearClient();
+        }
+    }, [getClient, clearClient, id])
     return (
-        <div className='bg-slate-100'>
+        <>
+            {loading ? <Spinner/> : <div className='bg-slate-100'>
             <Banner />
             <div className='p-20'>
                 <div className='text-4xl text-amber-300 flex items-center'>
@@ -20,12 +24,13 @@ const Widget = ({ getClient, clients }) => {
                 </div>
             </div>
             <WidgetCard client={client}/>
-        </div>
+        </div>}
+        </>
     )
 }
 
 const mapStateToProps = state => ({
-    clients: state.client.clients
+    client: state.client
 })
 
-export default connect(mapStateToProps, { getClient })(Widget);
+export default connect(mapStateToProps, { getClient, clearClient })(Widget);

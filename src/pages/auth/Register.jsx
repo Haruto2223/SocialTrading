@@ -1,64 +1,58 @@
-import React from "react";
+import PersonalInformation from "../../components/liveAccount/PersonalInformation";
+import CreatePassword from "../../components/liveAccount/CreatePassword";
+import Footer from "../../components/liveAccount/Footer";
 
-const Register = () => {
+import { register } from "../../actions/auth";
+import React, { useState, useCallback } from "react";
+import { Navigate } from "react-router";
+import { connect } from "react-redux";
+
+const Register = ({ register, isAuthenticated }) => {
+
+    const [personal, setPersonal] = useState({ firstName: '', lastName: '', email: '', category: '', password: '' });
+
+    const personalChange = useCallback((data) => {
+        setPersonal(prev => {
+            return { ...prev, ...data };
+        });
+    }, [])
+
+    const passwordChange = useCallback((password) => {
+        setPersonal(prev => {
+            return { ...prev, password };
+        })
+    }, [])
+
+    const handleOnClick = async () => {
+        register(personal)
+    };
+
+    if(isAuthenticated) {
+       return <Navigate to="/dashboard"/>
+    }
     return (
-        <div className="py-8 md:w-2/3 px-8 xl:w-1/2 mx-auto mt-24 border border-black-400 bg-white rounded-xl shadow-lg space-y-2 ">
-            <div className="text-center space-y-2 ">
-                <div className="xl:flex">
-                    <div className="xl:flex-2 xl:border-r-2 text-align-center gap-2">
-                        <p className="text-5xl text-center">
-                            <span className="bg-gradient-to-r from-amber-400 to-red-600 bg-clip-text text-transparent">MultiBank </span>
-                            <span className="text-indigo-900" >Group</span>
-                        </p>
-                        <p className="text-4xl my-2 text-center">Subscription Registration</p>
-                        <p className="text-center mb-2">Creating a new subscription</p>
-                        <label className="block pr-6">
-                            <select className="my-5 h-14  px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-xl sm:text-sm focus:ring-1" placeholder="Server">
-                                <option value='MultiBank-Live-1'>MultiBank-Live-1</option>
-                                <option value='MultiBank-Live-2'>MultiBank-Live-2</option>
-                                <option value='MultiBank-MT5'>MultiBank-MT5</option>
-                                <option value='MultiBank-Live-4'>MultiBank-Live-4</option>
-                            </select>
-                            <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-700">
-                                Select a server
-                            </span>
-                        </label>
-                        <label className="block pr-6">
-                            <input type="number" name="accountID" className="my-5 h-14  px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-xl sm:text-sm focus:ring-1" placeholder="Trading account" />
-                            <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-700">
-                                Trading account ID
-                            </span>
-                        </label>
-                        <label className="block pr-6">
-                            <input type="password" name="password" className="my-5 h-14  px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-xl sm:text-sm focus:ring-1" placeholder="Password" />
-                            <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-700">
-                                Trading account password
-                            </span>
-                        </label>
-                        <label className="block pr-6">
-                            <input type="email" name="email" className="my-5 h-14  px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-xl sm:text-sm focus:ring-1" placeholder="Provider" />
-                            <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-700">
-                                Select an active provider
-                            </span>
-                        </label>
-                        <label className="block pr-6">
-                            <input type="email" name="email" className="my-5 h-14  px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-xl sm:text-sm focus:ring-1" placeholder="Offer" />
-                            <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-700">
-                                There are no public offers
-                            </span>
-                        </label>
-                        <div className='text-center'>
-                            <button className=" bg-purple-900 text-white w-40 h-10 mt-10 rounded ">Register</button>
-                        </div>  
-                    </div>
-                    <div className="xl:flex-1">
-                        <h1 className="text-4xl text-center mb-2">Details</h1>
-                        <p className="text-center">Information about the chosen provider and subscription conditions</p>
-                    </div>
+        <div className="bg-slate-200">
+            <p className="text-center text-6xl text-[#000850]  py-16">OPEN A LIVE ACCOUNT</p>
+            <div className="mx-auto w-1/2 rounded-xl shadow-xl bg-white p-10">
+                <PersonalInformation change={personalChange} />
+                <CreatePassword change={passwordChange} />
+                <div>
+                    <div onClick={handleOnClick} className="mx-auto py-3 rounded-full w-1/5 bg-[#BB914A] hover:cursor-pointer hover:bg-[#A77520] duration-150 text-white text-3xl text-center uppercase">Register</div>
+                    <p className="text-slate-500 text-lg mt-5">
+                        You will now be onboarded through MEX Atlantic Corporation Company No. 354945 is regulated by
+                        the Cayman Islands Monetary Authority ("CIMA") (License Number: 1811316). MEX Atlantic is a part of MultiBank Group.
+                    </p>
                 </div>
+            </div>
+            <div className="p-20">
+                <Footer />
             </div>
         </div>
     )
 }
 
-export default Register;
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated
+  });
+
+export default connect(mapStateToProps, { register })(Register);

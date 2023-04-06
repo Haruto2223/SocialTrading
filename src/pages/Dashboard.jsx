@@ -1,13 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Navbar from '../components/dashboard/Navbar'
 import WorkContext from "../components/dashboard/WorkContext";
 import BreadCrumb from "../components/dashboard/Carousel";
 
 const DashBoard = () => {
     return (
         <>
-            <Navbar />
             <WorkContext />
             <BreadCrumb />
             <div className="text-center pb-20">

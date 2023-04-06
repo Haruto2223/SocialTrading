@@ -2,7 +2,8 @@ import {
     REGISTER_SUCCESS,
     LOGIN_SUCCESS,
     LOGOUT,
-    USER_LOADED
+    USER_LOADED,
+    AUTH_ERROR
   } from '../actions/types';
   
   const initialState = {
@@ -16,6 +17,11 @@ import {
     const { type, payload } = action;
   
     switch (type) {
+      case AUTH_ERROR:
+        return {
+          ...state,
+          loading: false
+        }
       case USER_LOADED:
         return {
           ...state,

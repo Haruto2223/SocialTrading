@@ -1,4 +1,4 @@
-import { FIND_ALL_CLIENTS, GET_CLIENT } from "./types";
+import { FIND_ALL_CLIENTS, GET_CLIENT, CLEAR_CLIENT } from "./types";
 import api from "../APIService/api";
 
 export const findAllUsers = () => async(dispatch) => {
@@ -10,3 +10,4 @@ export const findAllUsers = () => async(dispatch) => {
 }
 
 export const getClient = (id) => ({type: GET_CLIENT, payload: id});
+export const clearClient = () => ({type: CLEAR_CLIENT});

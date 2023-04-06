@@ -11,3 +11,4 @@ export const SET_PROVIDER = "SET_PROVIDER";
 export const SET_STRATEGY = "SET_STRATEGY";
 export const FIND_ALL_CLIENTS = "FIND_ALL_CLIENTS";
 export const GET_CLIENT = "GET_CLIENT";
+export const CLEAR_CLIENT = "CLEAR_CLIENT";

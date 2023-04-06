@@ -1,4 +1,3 @@
-import Navbar from "../components/dashboard/Navbar";
 import Banner from "../components/statistics/Banner";
 import MainBoard from "../components/statistics/MainBoard";
 import React, {useEffect} from "react";
@@ -12,7 +11,6 @@ const Statistics = ({findAllUsers}) => {
 
     return (
         <>
-            <Navbar/>
             <Banner/>
             <MainBoard/>
         </>
