@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -36,33 +37,24 @@ export const options = {
   },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+const Card = ({ title, content, data, id }) => {
+  const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      fill: true,
-      label: 'Dataset 2',
-      data: [100, 240, 400, 1000, 500, 600, 700],
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    },
-  ],
-};
+  const tableData = {
+    labels,
+    datasets: [
+      {
+        fill: true,
+        label: 'Dataset 2',
+        data,
+        borderColor: 'rgb(53, 162, 235)',
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      },
+    ],
+  };
 
-const handleOnclick = (event) => {
-  event.stopPropagation();
-  alert('hello')
-}
-
-const navigateToUrl = (e) => {
-  if(e.target.tagName.toLowerCase() !== 'button') window.location = '/widget';
-}
-
-const Card = ({ title, content }) => {
   return (
-    <div className="flex justify-center py-5" onClick={navigateToUrl}>
+    <Link to={`/widget/${id}`} className="flex justify-center py-5">
       <div className="block max-w-sm rounded-lg bg-white shadow-lg dark:bg-neutral-700">
         <div className="flex justify-between pr-10">
           <a href="#!">
@@ -72,7 +64,7 @@ const Card = ({ title, content }) => {
               alt="avatar" />
           </a>
           <button
-            type="button" onClick={handleOnclick} className="rounded-xl text-xl hover:bg-[#bb914a] hover:text-white font-bold bg-white outline outline-1 outline-[#bb914a] text-black mt-10 w-1/3 h-1/2">
+            type="button" className="rounded-xl text-xl hover:bg-[#bb914a] hover:text-white font-bold bg-white outline outline-1 outline-[#bb914a] text-black mt-10 w-1/3 h-1/2">
             Copy
           </button>
         </div>
@@ -85,9 +77,9 @@ const Card = ({ title, content }) => {
             {content}
           </p>
         </div>
-        <Line options={options} data={data} className='w-100 h-100' />
+        <Line options={options} data={tableData} className='w-100 h-100' />
       </div>
-    </div>
+    </Link>
   )
 }
 

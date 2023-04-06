@@ -15,6 +15,11 @@ const copyReducer = (state = initialState, action) =>
                 ...state,
                 provider: payload
             }
+        case SET_STRATEGY:
+            return {
+                ...state,
+                strategy: payload
+            }
         default:
             return state;
     }

@@ -1,12 +1,18 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import { setStrategy } from "../actions/copy";
 
 const scaleText = "This option will compare Master trader ac equity size and client ac equity size and then it will multiply or divide the volume (adjust the lot size) and then trade. Example, Top trader ac is $5000 and he is trading 1.00 volume lot size. And Client Account size is 500$ so system will add 0.1 lot size in client ac when fund manager is trading 1.00 lot."
 const fixedText = "Here client can select and write a Fix lot example he sau 0.1 lot fixed, then whatever the volume traded by the fund manager client will receive only 0.1 lot, even if fund manager is trading 0.05, client will still receive 0.1 lot"
 const reverseText = "It means if fund manager is making a buy then system wil open a sell in client account"
 
-const CopyConfirm = () => {
+const CopyConfirm = ({setStrategy}) => {
     const [selectedItem, setSelectedItem] = useState('');
     const [text, setText] = useState('');
+
+    const handleOnClick = () => {
+        setStrategy(selectedItem);
+    }
 
     const handleChange = (e) => {
         setSelectedItem(e.target.value);
@@ -72,10 +78,10 @@ const CopyConfirm = () => {
                     </div>
                 </div>
                 <p className="mt-10 text-2xl">{text}</p>
-                {text ? <div onClick className="mt-10 p-5 hover:bg-[#BB914A] hover:cursor-pointer text-white text-center text-4xl font-bold uppercase max-w-[20%] mx-auto rounded-full bg-[#dba54f]">ok</div> : null}
+                {text ? <div onClick={handleOnClick} className="mt-10 p-5 hover:bg-[#BB914A] hover:cursor-pointer text-white text-center text-4xl font-bold uppercase max-w-[20%] mx-auto rounded-full bg-[#dba54f]">ok</div> : null}
             </div>
         </div>
     )
 }
 
-export default CopyConfirm;
+export default connect(null, {setStrategy})(CopyConfirm);

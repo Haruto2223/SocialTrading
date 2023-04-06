@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import { setProvider } from "../../actions/copy";
 import { connect } from "react-redux";
 
-const WidgetCard = ({setProvider}) => {
+const WidgetCard = ({setProvider, client}) => {
     const handleOnClick = () => {
-        console.log('link clicked');
+        setProvider(client._id);
     }
  
     return (
@@ -16,7 +16,7 @@ const WidgetCard = ({setProvider}) => {
             </div>
 
             <div className="my-32 text-center">
-                <h1 className="font-bold text-5xl text-amber-500">AK47</h1>
+                <h1 className="font-bold text-5xl text-amber-500">{client?.firstName + ' ' + client?.lastName} </h1>
                 <p className="text-3xl text-gray-400 font-medium mt-10">Saudi Arabia</p>
                 <Link to="/copyconfirm" onClick={handleOnClick} className="relative top-16 my-20 px-10 py-5 rounded-full border border-amber-400 text-2xl font-bold hover:bg-black hover:text-white">Copy</Link>
             </div>

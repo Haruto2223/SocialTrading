@@ -20,7 +20,7 @@ import { setAlert } from './alert';
 // Load User
 export const loadUser = () => async (dispatch) => {
   try {
-    const res = await api.get('/');
+    const res = await api.get('/auth');
 
     dispatch({
       type: USER_LOADED,
@@ -60,7 +60,7 @@ export const register = (data) => async (dispatch) => {
 export const login = (payload) => async (dispatch) => {
 
   try {
-    const res = await api.post('/client/login', payload);
+    const res = await api.post('/auth/login', payload);
 
     dispatch({
       type: LOGIN_SUCCESS,
