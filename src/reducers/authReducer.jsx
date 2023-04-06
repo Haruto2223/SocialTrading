@@ -6,7 +6,7 @@ import {
   } from '../actions/types';
   
   const initialState = {
-    // token: localStorage.getItem('token'),
+    token: localStorage.getItem('token'),
     isAuthenticated: null,
     loading: true,
     user: null
@@ -36,6 +36,7 @@ import {
           ...state,
           isAuthenticated: false,
           loading: false,
+          token: null,
           user: null
         };
       default:

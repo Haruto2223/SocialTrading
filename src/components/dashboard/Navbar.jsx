@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { logout } from "../../actions/auth";
+import { Link } from "react-router-dom";
 
 const Navbar = ({ logout, isAuthenticated }) => {
 
@@ -16,7 +17,7 @@ const Navbar = ({ logout, isAuthenticated }) => {
                 <div className="hidden w-full md:block md:w-auto" id="navbar-default">
                     <ul className="flex flex-col p-4 mt-4 border rounded-lg md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 text">
                         <li>
-                            <a href="/register" className="py-2 pl-3 pr-4 text-white text-2xl rounded hover:text-[#BB914A]">About</a>
+                            <Link to="/statistics" className="py-2 pl-3 pr-4 text-white text-2xl rounded hover:text-[#BB914A]">LeaderBoard</Link>
                         </li>
                         <li>
                             <a href="/register" className="py-2 pl-3 pr-4 text-white text-2xl rounded hover:text-[#BB914A]">Products</a>

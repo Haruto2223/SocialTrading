@@ -2,6 +2,14 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const Client = require('../models/Client')
+const auth = require('../middleware/auth')
+
+//Load user
+router.get('/', auth, async(req, res) => {
+    
+    const user = await Client.findById(req.user);
+    res.json(user);
+})
 
 //User login
 router.post('/login', async(req, res) => {

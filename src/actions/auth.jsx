@@ -42,7 +42,7 @@ export const register = (data) => async (dispatch) => {
       type: REGISTER_SUCCESS,
       payload: res.data
     });
-    // dispatch(loadUser());
+    dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -67,7 +67,7 @@ export const login = (payload) => async (dispatch) => {
       payload: res.data
     });
 
-    // dispatch(loadUser());
+    dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -82,4 +82,6 @@ export const login = (payload) => async (dispatch) => {
 };
 
 // Logout
-export const logout = () => ({ type: LOGOUT });
+export const logout = () => dispatch => {
+  dispatch({type: LOGOUT});
+};

@@ -11,7 +11,7 @@ const DashBoard = () => {
             <WorkContext />
             <BreadCrumb />
             <div className="text-center pb-20">
-                <Link className="bg-amber-600 text-4xl text-white hover:text-purple-800 rounded-full p-5" to="/statistics" >View leaderboard</Link>
+                <Link className="bg-[#bb914a] text-4xl text-white hover:text-purple-800 rounded-full p-5" to="/statistics" >View leaderboard</Link>
             </div>
         </>
     )
