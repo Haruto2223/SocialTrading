@@ -179,3 +179,20 @@ module.exports.getuserinfo = function(id){
         });
     });
 };
+
+module.exports.getbalance = function(id){
+    req.Auth(1016, "jin2022@", 3320, "manager",  (error) => { 
+        if (error) { 
+          console.log(error); 
+          return; 
+        } 
+        req.Get("/api/user/check_balance?login=989023&fixflag=1", function (error, res, body) { 
+            if (error) { 
+            console.log(error); 
+            return; 
+            } 
+            var answer = req.ParseBodyJSON(error, res, body, null);
+            console.log(body); 
+        });
+    });
+};
