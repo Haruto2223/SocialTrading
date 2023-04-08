@@ -160,9 +160,8 @@ MT5Request.prototype.Auth = function (login, password, build, agent, callback) {
   return (true); 
 }; 
 
-var req = new MT5Request("188.214.133.186", 443);
-
-module.exports.getuserinfo = function(id){
+module.exports.getuserinfo = function(server, id){
+    const req = new MT5Request(server, 443);
     req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
         if (error) { 
           console.log(error); 

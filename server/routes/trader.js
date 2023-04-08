@@ -5,36 +5,55 @@ const Follower = require('../models/Follower');
 
 //Get All providers
 router.get('/provider/all', async(req, res) => {
+    try{
+        const clients = await api.getproviderall();
+        clients.map(async(client) => {
+            try{
+                const nick =  await Provider.findOne({id: client.id});
+                client.nickName = nick;
+            } catch(err){
 
+            }
+        })
+        res.json(clients);
+    } catch(err)
+    {
+
+    }
 })
 
 //Provider register
 router.post('/provider', async(req, res) => {
     const {server, id, password, nickName, fee} = req;
+    try{
+        //api operation
+        const clients = await api.providerRegister(server, id, password, fee);
+        clients.map(async(client) => {
+            try{
+                let provider = await Provider.findOne({ nickName });
 
+                if (provider) {
+                  return res
+                    .status(400)
+                    .json({ errors: [{ msg: 'Provider already exists' }] });
+                }
+          
+                provider = new Provider({
+                  server,
+                  nickName,
+                  fee,
+                  id
+                });         
+                await provider.save();
+            } catch(err){
+                
+            }
+        });        
+        res.json(clients);
+    } catch(err)
     {
-        const provider = await Provider.findOne({account: id});
-        if(provider)
-        {
-            return res.status(400).json({msg: 'Same Account already exists'});
-        }
-    }
 
-    {
-        const provider = await Provider.findOne({nickName});
-        if(provider)
-        {
-            return res.status(400).json({msg: 'Same Nickname already exists'});
-        }
     }
-    const newProvider = new Provider({
-        server,
-        nickName,
-        fee
-    })
-    const provider = await newProvider.save();
-    return res.json(provider);
-
 })
 
 //Follower register
