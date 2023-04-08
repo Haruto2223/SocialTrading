@@ -1,7 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const Provider = require('../models/Provider');
+const Follower = require('../models/Follower');
 
+//Get All providers
+router.get('/provider/all', async(req, res) => {
+
+})
+
+//Provider register
 router.post('/provider', async(req, res) => {
     const {server, id, password, nickName, fee} = req;
 
@@ -29,3 +36,26 @@ router.post('/provider', async(req, res) => {
     return res.json(provider);
 
 })
+
+//Follower register
+router.post('/follower', async(req, res) => {
+    const {id, server, password, providerNickname, strategy} = req.body;
+})
+
+//Provider || Follower login
+router.post('/login', async(req, res) => {
+    const {server, id, password, strategy} = req.body;
+})
+
+//Get all of my providers
+router.get('/follower/:id', async(req, res) => {
+    const id = req.params.id;
+
+})
+
+//Get all of my followers
+router.get('/provider/:id', async(req, res) => {
+    const id = req.params.id;
+})
+
+module.exports = router;
