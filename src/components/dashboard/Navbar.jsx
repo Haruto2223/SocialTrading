@@ -1,9 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import { logout } from "../../actions/auth";
 import { Link } from "react-router-dom";
 
-const Navbar = ({ logout, isAuthenticated }) => {
+const Navbar = () => {
 
     return (
         <nav className="bg-[#000850] border-gray-200 px-2 sm:px-4 py-7 rounded">
@@ -16,26 +15,14 @@ const Navbar = ({ logout, isAuthenticated }) => {
                 </button>
                 <div className="hidden w-full md:block md:w-auto" id="navbar-default">
                     <ul className="flex flex-col p-4 mt-4 border rounded-lg md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 text">
-                        {isAuthenticated ? (<>
+                        <>
                             <li>
                                 <Link to="/statistics" className="py-2 pl-3 pr-4 text-white text-2xl rounded hover:text-[#BB914A]">LeaderBoard</Link>
                             </li>
                             <li>
                                 <Link to="/sociallogin" className="py-2 pl-3 pr-4 text-white text-2xl rounded hover:text-[#BB914A]">Join Now</Link>
                             </li>
-                            <li>
-                                <div onClick={() => logout()} className="hover:cursor-pointer pl-3 pr-4 text-white text-2xl rounded hover:text-[#BB914A]">
-                                    Logout
-                                </div>
-                            </li></>) : (<>
-                                <li>
-                                    <Link to="/register" className="py-2 pl-3 pr-4 text-white text-2xl rounded hover:text-[#BB914A]">Sign Up</Link>
-                                </li>
-                                <li>
-                                    <Link to="/login" className="hover:cursor-pointer pl-3 pr-4 text-white text-2xl rounded hover:text-[#BB914A]">
-                                        LogIn
-                                    </Link>
-                                </li></>)}
+                        </>
 
                     </ul>
                 </div>
@@ -45,8 +32,4 @@ const Navbar = ({ logout, isAuthenticated }) => {
     )
 }
 
-const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated
-})
-
-export default connect(mapStateToProps, { logout })(Navbar);
+export default connect(null, {})(Navbar);
