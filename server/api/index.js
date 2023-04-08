@@ -162,22 +162,20 @@ MT5Request.prototype.Auth = function (login, password, build, agent, callback) {
 
 var req = new MT5Request("188.214.133.186", 443);
 
-module.exports = function MT5API() { 
-    this.getuserinfo = function(id){
-        req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
+module.exports.getuserinfo = function(id){
+    req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
+        if (error) { 
+          console.log(error); 
+          return; 
+        } 
+        req.Get("/api/user/get?login="+id, function (error, res, body) { 
             if (error) { 
               console.log(error); 
               return; 
             } 
-            req.Get("/api/user/get?login="+id, function (error, res, body) { 
-                if (error) { 
-                  console.log(error); 
-                  return; 
-                } 
-                var answer = req.ParseBodyJSON(error, res, body, null);
-                console.log(body);
-                return body;
-            });
+            var answer = req.ParseBodyJSON(error, res, body, null);
+            console.log(body);
+            return body;
         });
-    };
-} 
+    });
+};
