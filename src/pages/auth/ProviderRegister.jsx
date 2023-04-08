@@ -1,9 +1,8 @@
 import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { providerRegister } from "../../actions/trader";
 
-const ProviderRegister = ({providerRegister}) => {
+const ProviderRegister = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [nickname, setNickname] = useState('');
@@ -17,7 +16,7 @@ const ProviderRegister = ({providerRegister}) => {
     const feeChange = e => setFee(e.target.value);
 
     const handleClick = () => {
-        providerRegister({email, password, nickname, server, fee});
+        // providerRegister({email, password, nickname, server, fee});
     }
 
     return (
@@ -75,4 +74,4 @@ const ProviderRegister = ({providerRegister}) => {
     )
 }
 
-export default connect(null, {providerRegister})(ProviderRegister);
+export default connect(null, {})(ProviderRegister);
