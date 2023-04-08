@@ -28,7 +28,7 @@ const Register = ({ register, isAuthenticated }) => {
     };
 
     if(isAuthenticated) {
-       return <Navigate to="/dashboard"/>
+       return <Navigate to="/"/>
     }
     return (
         <div className="bg-slate-200">

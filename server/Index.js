@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const client = require('./routes/client');
+const provider = require('./routes/provider')
 const auth = require('./routes/auth')
 
 const app = express();
@@ -8,6 +9,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use('/client', client);
 app.use('/auth', auth);
+app.use('/provider', provider);
 app.get('/', (req, res) => res.json({'msg': 'hello'}))
 
 mongoose.connect('mongodb://127.0.0.1:27017')

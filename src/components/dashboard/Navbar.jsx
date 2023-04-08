@@ -21,6 +21,9 @@ const Navbar = ({ logout, isAuthenticated }) => {
                                 <Link to="/statistics" className="py-2 pl-3 pr-4 text-white text-2xl rounded hover:text-[#BB914A]">LeaderBoard</Link>
                             </li>
                             <li>
+                                <Link to="/sociallogin" className="py-2 pl-3 pr-4 text-white text-2xl rounded hover:text-[#BB914A]">Join Now</Link>
+                            </li>
+                            <li>
                                 <div onClick={() => logout()} className="hover:cursor-pointer pl-3 pr-4 text-white text-2xl rounded hover:text-[#BB914A]">
                                     Logout
                                 </div>

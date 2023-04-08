@@ -10,6 +10,9 @@ import { LOGOUT } from './actions/types';
 import setAuthToken from './APIService/setAuthToken';
 
 import Login from './pages/auth/Login'
+import SocialLogin from './pages/socialAuth/SocialLogin';
+import FollowerRegister from './pages/socialAuth/FollowerRegister';
+import ProviderRegister from './pages/socialAuth/ProviderRegister';
 import Dashboard from './pages/Dashboard'
 import Statistics from './pages/Statistics';
 import Widget from './pages/Widget';
@@ -34,12 +37,15 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route path='register' element={<Register />} />
-          <Route path='login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/login' element={<Login />} />
           <Route path='/' element={<Dashboard />} />
-          <Route path='statistics' element={<PrivateRoute component={Statistics}/>} />
-          <Route path='widget/:id' element={<PrivateRoute component={Widget}/>} />
-          <Route path='copyconfirm' element={<PrivateRoute component={CopyConfirm} />} />
+          <Route path='/statistics' element={<PrivateRoute component={Statistics}/>} />
+          <Route path='/sociallogin' element={<PrivateRoute component={SocialLogin}/>} />
+          <Route path='/register/follower' element={<PrivateRoute component={FollowerRegister}/>} />
+          <Route path='/register/provider' element={<PrivateRoute component={ProviderRegister}/>} />
+          <Route path='/widget/:id' element={<PrivateRoute component={Widget}/>} />
+          <Route path='/copyconfirm' element={<PrivateRoute component={CopyConfirm} />} />
         </Routes>
       </Router>
     </Provider>
