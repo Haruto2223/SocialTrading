@@ -40,11 +40,11 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
           <Route path='/' element={<Dashboard />} />
-          <Route path='/statistics' element={<PrivateRoute component={Statistics}/>} />
-          <Route path='/sociallogin' element={<PrivateRoute component={SocialLogin}/>} />
-          <Route path='/register/follower' element={<PrivateRoute component={FollowerRegister}/>} />
-          <Route path='/register/provider' element={<PrivateRoute component={ProviderRegister}/>} />
-          <Route path='/widget/:id' element={<PrivateRoute component={Widget}/>} />
+          <Route path='/statistics' element={<Statistics/>} />
+          <Route path='/sociallogin' element={<SocialLogin/>} />
+          <Route path='/register/follower' element={<FollowerRegister/>} />
+          <Route path='/register/provider' element={<ProviderRegister/>} />
+          <Route path='/widget/:id' element={<Widget/>} />
           <Route path='/copyconfirm' element={<PrivateRoute component={CopyConfirm} />} />
         </Routes>
       </Router>

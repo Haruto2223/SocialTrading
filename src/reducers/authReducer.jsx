@@ -10,7 +10,8 @@ import {
     token: localStorage.getItem('token'),
     isAuthenticated: null,
     loading: true,
-    user: null
+    user: null,
+    category: null
   };
   
   function authReducer(state = initialState, action) {
@@ -21,7 +22,7 @@ import {
         return {
           ...state,
           loading: false
-        }
+        };
       case USER_LOADED:
         return {
           ...state,
