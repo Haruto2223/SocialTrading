@@ -5,7 +5,7 @@ const Provider = require('../models/Provider')
 
 router.post('/', auth, (req, res) => {
     const {email, password, server, fee, nickname} = req.body;
-    console.log(email);
+    console.log(req.body);
 })
 
 module.exports = router;

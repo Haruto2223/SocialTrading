@@ -174,7 +174,7 @@ module.exports.getuserinfo = function(id){
               return; 
             } 
             var answer = req.ParseBodyJSON(error, res, body, null);
-            console.log(body);
+            // console.log(body);
             return body;
         });
     });
