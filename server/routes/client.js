@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Client = require('../models/Client');
 const { check, validationResult } = require('express-validator');
-const api = require('api');
+const api = require('../api');
 
 //get all users
 router.get('/', async(req, res) => {
