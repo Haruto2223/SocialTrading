@@ -2,11 +2,88 @@ const express = require('express');
 const router = express.Router();
 const Client = require('../models/Client');
 const { check, validationResult } = require('express-validator');
+const api = require('api');
 
 //get all users
 router.get('/', async(req, res) => {
     try{
         const clients = await Client.find();
+        res.json(clients);
+    } catch(err)
+    {
+
+    }
+})
+
+//get all users
+router.get('/provider/all', async(req, res) => {
+    try{
+        const clients = await api.getproviderall(req.body.nickname);
+        clients.map(async(client) => {
+            try{
+                const nick =  await Provider.findOne({id: client.id});
+                client.nickName = nick;
+            } catch(err){
+
+            }
+        })
+        res.json(clients);
+    } catch(err)
+    {
+
+    }
+})
+
+//Register provider
+router.post('/trader/provider', async(req, res) => {
+    try{
+        const clients = await api.getproviderall(req.body.nickname);
+        clients.map(async(client) => {
+            try{
+                const nick =  await Provider.findOne({id: client.id});
+                client.nickName = nick;
+            } catch(err){
+
+            }
+        })
+        res.json(clients);
+    } catch(err)
+    {
+
+    }
+})
+
+//Register follower
+router.post('/trader/follower', async(req, res) => {
+    try{
+        const clients = await api.getproviderall(req.body.nickname);
+        clients.map(async(client) => {
+            try{
+                const nick =  await Provider.findOne({id: client.id});
+                client.nickName = nick;
+            } catch(err){
+
+            }
+        })
+        res.json(clients);
+    } catch(err)
+    {
+
+    }
+})
+
+//get all users
+router.get('/provider/all', async(req, res) => {
+    try{
+        const clients = await api.getproviderall(req.body.nickname);
+        clients.map(async(client) => {
+            try{
+                const nick =  await Provider.findOne({id: client.id});
+                client.nickName = nick;
+            } catch(err){
+
+            }
+        })
         res.json(clients);
     } catch(err)
     {
