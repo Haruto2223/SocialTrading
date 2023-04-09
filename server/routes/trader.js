@@ -50,7 +50,7 @@ router.post('/provider', async (req, res) => {
     const { server, id, password, nickname, fee } = req.body;
     try {
         //api operation
-        // const checked = await api.providerRegister(server, id, password, fee);
+        // const checked = await api.providerRegister('127.0.0.1', 5001, id, password, fee);
         // if(checked) 
         let provider = await Provider.findOne({ accountID: id });
         if (provider) {
