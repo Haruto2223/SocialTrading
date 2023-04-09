@@ -185,7 +185,7 @@ module.exports.getProviders = function(server, port, id){
         console.log(error); 
         return; 
       } 
-      req.Get("/api/trading/getProvider?id="+id, function (error, res, body) { 
+      req.Get("/api/trading/getProviders?id="+id, function (error, res, body) { 
           if (error) { 
             console.log(error); 
             return; 
@@ -240,7 +240,6 @@ module.exports.followerRegister = function(server, port, followerId, password, s
         return; 
       } 
 
-      //must be POST
       req.Get("/api/trading/register/follower?id="+followerId+"&password="+password+"&=providerId"+providerId+"&strategy="+strategy, function (error, res, body) { 
           if (error) { 
             console.log(error); 
@@ -259,8 +258,7 @@ module.exports.getproviderall = function(server, port){
         return; 
       } 
 
-      //must be POST
-      req.Get("/api/trading/getall", function (error, res, body) { 
+      req.Get("/api/trading/getAllProvider", function (error, res, body) { 
           if (error) { 
             console.log(error); 
             return;
@@ -270,7 +268,7 @@ module.exports.getproviderall = function(server, port){
   });
 };
 
-module.exports.getproviderall = function(server, port){
+module.exports.getmyinfo = function(server, port, id){
   const req = new MT5Request(server, port);
   req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
       if (error) {
@@ -278,32 +276,12 @@ module.exports.getproviderall = function(server, port){
         return; 
       } 
 
-      //must be POST
-      req.Get("/api/trading/getall", function (error, res, body) { 
+      req.Get("/api/trading/getInfo?id="+id, function (error, res, body) { 
           if (error) { 
             console.log(error); 
             return;
           }
-          return body;
-      });
-  });
-};
-
-
-module.exports.getinfo = function(server, port, id){
-  const req = new MT5Request(server, port);
-  req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
-      if (error) {
-        console.log(error); 
-        return; 
-      } 
-
-      //must be POST
-      req.Get("/api/trading/getinfo?id="+id, function (error, res, body) { 
-          if (error) { 
-            console.log(error); 
-            return;
-          }
+          console.log(body);
           return body;
       });
   });

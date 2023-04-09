@@ -9,6 +9,7 @@ const api = require('../api');
 
 //Get Trader Info
 router.get('/', auth, async (req, res) => {
+    // await api.getmyinfo('192.168.112.95', 5001, id)
     try {
         let trader = await Provider.findOne({ accountID: req.trader.id });
         if (trader) {
