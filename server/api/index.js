@@ -185,7 +185,7 @@ module.exports.getProviders = function(id){
         console.log(error); 
         return; 
       } 
-      req.Get("/api/trading/get?providerId="+id, function (error, res, body) { 
+      req.Get("/api/trading/getProvider?id="+id, function (error, res, body) { 
           if (error) { 
             console.log(error); 
             return; 
@@ -196,14 +196,14 @@ module.exports.getProviders = function(id){
   });
 };
 
-module.exports.login = function(server, id, password, category){
+module.exports.login = function(server, id, password){
   const req = new MT5Request(server, 443);
   req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
       if (error) { 
         console.log(error); 
         return; 
       } 
-      req.Get("/api/auth/login/get?login="+id+"&password="+password+"&category="+category, function (error, res, body) { 
+      req.Get("/api/trading/login?id="+id+"&password="+password, function (error, res, body) { 
           if (error) { 
             console.log(error); 
             return; 
@@ -221,7 +221,7 @@ module.exports.providerRegister = function(server, id, password, fee){
         console.log(error); 
         return; 
       } 
-      req.Get("/api/auth/register/provider?providerId="+id+"&password="+password+"&fee="+fee, function (error, res, body) { 
+      req.Get("/api/trading/register/provider?id="+id+"&password="+password+"&fee="+fee, function (error, res, body) { 
           if (error) { 
             console.log(error); 
             return; 
@@ -240,7 +240,7 @@ module.exports.followerRegister = function(server, followerId, password, strateg
       } 
 
       //must be POST
-      req.Get("/api/auth/register/follower?followerId="+followerId+"&password="+password+"&=providerId"+providerId+"&strategy="+strategy, function (error, res, body) { 
+      req.Get("/api/trading/register/follower?id="+followerId+"&password="+password+"&=providerId"+providerId+"&strategy="+strategy, function (error, res, body) { 
           if (error) { 
             console.log(error); 
             return; 
