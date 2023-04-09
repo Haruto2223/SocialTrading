@@ -52,7 +52,7 @@ router.post('/provider', async (req, res) => {
     const { server, id, password, nickname, fee } = req.body;
     try {
         //api operation
-        // const checked = await api.providerRegister('127.0.0.1', 5001, id, password, fee);
+        // const checked = await api.providerRegister('192.168.112.95', 5001, id, password, fee);
         // if(checked) 
         let provider = await Provider.findOne({ accountID: id });
         if (provider) {
@@ -77,7 +77,7 @@ router.post('/provider', async (req, res) => {
 router.post('/follower', async (req, res) => {
     const { id, server, password } = req.body;
     try {
-        //const checked = await api.login(server, id, password);
+        //const checked = await api.login('192.168.112.95', 5001, id, password);
         let follower = await Follower.findOne({ accountID: id });
 
         if (follower) {
@@ -102,7 +102,7 @@ router.post('/follower', async (req, res) => {
 router.post('/login', async (req, res) => {
     const { server, id, password } = req.body;
     try {
-        // const checked = await api.login(server, id, password);
+        // const checked = await api.login('192.168.112.95', 5001, id, password);
         let trader = await Provider.findOne({ accountID: id });
         if (trader) {
             return res.json({ category: 'provider', trader })
@@ -116,6 +116,7 @@ router.post('/login', async (req, res) => {
 
 //Get all of my providers
 router.get('/follower/:id', async (req, res) => {
+    //await api.getProviders(server, port, id)
     const id = req.params.id;
     try {
         //api operation
@@ -128,6 +129,7 @@ router.get('/follower/:id', async (req, res) => {
 
 //Get all of my followers
 router.get('/provider/:id', async (req, res) => {
+    //await api.getFollowers(server, port, id)
     const id = req.params.id;
     try {
         //api operation
