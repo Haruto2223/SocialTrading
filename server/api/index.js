@@ -1,8 +1,8 @@
 const https = require("https"); 
 const crypto = require('crypto'); 
 const buffer = require('buffer'); 
-const { json } = require("stream/consumers");
-const querystring = require('querystring');
+// const { json } = require("stream/consumers");
+// const querystring = require('querystring');
   
 function MT5Request(server, port) { 
   this.server = server; 
@@ -74,7 +74,7 @@ MT5Request.prototype.ParseBodyJSON = function (error, res, body, callback) {
     callback && callback(error); 
     return (null); 
   } 
-  if (res.statusCode != 200) { 
+  if (res.statusCode !== 200) { 
     callback && callback(res.statusCode); 
     return (null); 
   } 
@@ -90,7 +90,7 @@ MT5Request.prototype.ParseBodyJSON = function (error, res, body, callback) {
     return (null); 
   } 
   var retcode = parseInt(answer.retcode); 
-  if (retcode != 0) { 
+  if (retcode !== 0) { 
     callback && callback(answer.retcode); 
     return (null); 
   } 
@@ -111,7 +111,7 @@ MT5Request.prototype.ProcessAuth = function (answer, password) {
   //--- 
   var answer_md5 = crypto.createHash('md5'); 
   answer_md5.update(md5_digest, 'binary'); 
-  var buf = Buffer.from(answer.srv_rand, 'hex'); 
+  buf = Buffer.from(answer.srv_rand, 'hex'); 
   answer_md5.update(buf, 'binary'); 
   //--- 
   return (answer_md5.digest('hex')); 
@@ -132,7 +132,7 @@ MT5Request.prototype.ProcessAuthFinal = function (answer, password, cli_random) 
   var answer_md5 = crypto.createHash('md5'); 
   answer_md5.update(md5_digest, 'binary'); 
   answer_md5.update(cli_random, 'binary'); 
-  return (answer.cli_rand_answer == answer_md5.digest('hex')); 
+  return (answer.cli_rand_answer === answer_md5.digest('hex')); 
 } 
   
 MT5Request.prototype.Auth = function (login, password, build, agent, callback) { 
@@ -145,7 +145,7 @@ MT5Request.prototype.Auth = function (login, password, build, agent, callback) {
       var srv_rand_answer = self.ProcessAuth(answer, password); 
 
       var cli_random_buf = crypto.randomBytes(16); 
-      cli_random_buf_hex = cli_random_buf.toString('hex');
+      var cli_random_buf_hex = cli_random_buf.toString('hex');
       self.Get("/api/auth/answer?srv_rand_answer=" + srv_rand_answer + "&cli_rand=" + cli_random_buf_hex, function (error, res, body) { 
         var answer = self.ParseBodyJSON(error, res, body, callback); 
         if (answer) { 
@@ -160,44 +160,8 @@ MT5Request.prototype.Auth = function (login, password, build, agent, callback) {
   return (true); 
 }; 
 
-// module.exports.getuserinfo = function(server, id){
-//     const req = new MT5Request(server, 443);
-//     req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
-//         if (error) { 
-//           console.log(error); 
-//           return; 
-//         } 
-//         req.Get("/api/user/get?login="+id, function (error, res, body) { 
-//             if (error) { 
-//               console.log(error); 
-//               return; 
-//             } 
-//             var answer = req.ParseBodyJSON(error, res, body, null);
-//             // console.log(body);
-//             return body;
-//         });
-//     });
-// };
-
-// module.exports.getbalance = function(id){
-//     req.Auth(1016, "jin2022@", 3320, "manager",  (error) => { 
-//         if (error) { 
-//           console.log(error); 
-//           return; 
-//         } 
-//         req.Get("/api/user/check_balance?login=989023&fixflag=1", function (error, res, body) { 
-//             if (error) { 
-//             console.log(error); 
-//             return; 
-//             } 
-//             var answer = req.ParseBodyJSON(error, res, body, null);
-//             console.log(body); 
-//         });
-//     });
-// };
-
 module.exports.getFollowers = function(id){
-  const req = new MT5Request('188.214.133.186', 443);
+  const req = new MT5Request('188.214.133.186', 5001);
   req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
       if (error) { 
         console.log(error); 
@@ -208,7 +172,7 @@ module.exports.getFollowers = function(id){
             console.log(error); 
             return; 
           } 
-          var answer = req.ParseBodyJSON(error, res, body, null);
+          // var answer = req.ParseBodyJSON(error, res, body, null);
           return body;
       });
   });
@@ -226,7 +190,7 @@ module.exports.getProviders = function(id){
             console.log(error); 
             return; 
           } 
-          var answer = req.ParseBodyJSON(error, res, body, null);
+          // var answer = req.ParseBodyJSON(error, res, body, null);
           return body;
       });
   });
@@ -239,30 +203,29 @@ module.exports.login = function(server, id, password, category){
         console.log(error); 
         return; 
       } 
-      req.Get("/api/login/get?login="+id+"&password="+password+"&category="+category, function (error, res, body) { 
+      req.Get("/api/auth/login/get?login="+id+"&password="+password+"&category="+category, function (error, res, body) { 
           if (error) { 
             console.log(error); 
             return; 
           } 
-          var answer = req.ParseBodyJSON(error, res, body, null);
+          // var answer = req.ParseBodyJSON(error, res, body, null);
           return body;
       });
   });
 };
 
 module.exports.providerRegister = function(server, id, password, fee){
-  const req = new MT5Request(server, 443);
+  const req = new MT5Request(server, 5001);
   req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
       if (error) { 
         console.log(error); 
         return; 
       } 
-      req.Get("/api/register/provider?providerId="+id+"&password="+password+"&fee="+fee, function (error, res, body) { 
+      req.Get("/api/auth/register/provider?providerId="+id+"&password="+password+"&fee="+fee, function (error, res, body) { 
           if (error) { 
             console.log(error); 
             return; 
           } 
-          var answer = req.ParseBodyJSON(error, res, body, null);
           return body;
       });
   });
@@ -277,7 +240,7 @@ module.exports.followerRegister = function(server, followerId, password, strateg
       } 
 
       //must be POST
-      req.Get("/api/register/follower?followerId="+followerId+"&password="+password+"&=providerId"+providerId+"&strategy="+strategy, function (error, res, body) { 
+      req.Get("/api/auth/register/follower?followerId="+followerId+"&password="+password+"&=providerId"+providerId+"&strategy="+strategy, function (error, res, body) { 
           if (error) { 
             console.log(error); 
             return; 
@@ -296,7 +259,7 @@ module.exports.getproviderall = function(server){
       } 
 
       //must be POST
-      req.Get("/api/trading/get?", function (error, res, body) { 
+      req.Get("/api/trading/getall", function (error, res, body) { 
           if (error) { 
             console.log(error); 
             return;

@@ -2,19 +2,26 @@ const express = require('express');
 const router = express.Router();
 const Provider = require('../models/Provider');
 const Follower = require('../models/Follower');
+const Server = require('../models/servers');
+const api = require('../api');
 
 //Get All providers
 router.get('/provider/all', async(req, res) => {
     try{
-        const clients = await api.getproviderall();
-        clients.map(async(client) => {
-            try{
-                const nick =  await Provider.findOne({id: client.id});
-                client.nickName = nick;
-            } catch(err){
-
-            }
-        })
+        var clients;
+        // select ip, port from Server
+        const array = Server.findById();
+        array.forEach(async(server) => {
+            clients.append(await api.getproviderall(server));
+            clients.map(async(client) => {
+                try{
+                    const nick =  await Provider.findOne({id: client.id});
+                    client.nickName = nick;
+                } catch(err){
+    
+                }
+            });            
+        });
         res.json(clients);
     } catch(err)
     {
@@ -28,28 +35,29 @@ router.post('/provider', async(req, res) => {
     try{
         //api operation
         const clients = await api.providerRegister(server, id, password, fee);
-        clients.map(async(client) => {
-            try{
-                let provider = await Provider.findOne({ nickName: client.nickName });
+        console.log(clients);
+        // clients.map(async(client) => {
+        //     try{
+        //         let provider = await Provider.findOne({ nickName: client.nickName });
 
-                if (provider) {
-                  return res
-                    .status(400)
-                    .json({ errors: [{ msg: 'Provider already exists' }] });
-                }
+        //         if (provider) {
+        //           return res
+        //             .status(400)
+        //             .json({ errors: [{ msg: 'Provider already exists' }] });
+        //         }
           
-                provider = new Provider({
-                  server,
-                  nickName,
-                  fee,
-                  id
-                });         
-                await provider.save();
-            } catch(err){
-                return res.status(400).json({errors: [{ msg: 'failed to verify your account'}] })
-            }
-        });        
-        res.json(clients);
+        //         provider = new Provider({
+        //           server,
+        //           nickName,
+        //           fee,
+        //           id
+        //         });         
+        //         await provider.save();
+        //     } catch(err){
+        //         return res.status(400).json({errors: [{ msg: 'failed to verify your account'}] })
+        //     }
+        // });        
+        // res.json(clients);
     } catch(err)
     {
 
@@ -73,9 +81,6 @@ router.post('/follower', async(req, res) => {
                 }
           
                 follower = new Follower({
-                  server,
-                  nickName,
-                  fee,
                   id
                 });         
                 await follower.save();
