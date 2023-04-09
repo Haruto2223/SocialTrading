@@ -9,7 +9,7 @@ const api = require('../api');
 
 //Get Trader Info
 router.get('/', auth, async (req, res) => {
-    // await api.getmyinfo('192.168.112.95', 5001, id)
+    // await api.getmyinfo('192.168.112.95', 5001, id);
     try {
         let trader = await Provider.findOne({ accountID: req.trader.id });
         if (trader) {
@@ -28,6 +28,7 @@ router.get('/provider/all', async(req, res) => {
     try{
         var clients;
         // select ip, port from Server
+        // await api.getproviderall('192.168.112.95', 5001)
         const array = Server.findById();
         array.forEach(async(server) => {
             clients.append(await api.getproviderall(server));
@@ -76,27 +77,7 @@ router.post('/provider', async (req, res) => {
 router.post('/follower', async (req, res) => {
     const { id, server, password } = req.body;
     try {
-        // //api operation
-        // const clients = await api.followerRegister(server, id, password, strategy, providerNickname);
-        // clients.map(async(client) => {
-        //     try{
-        //         let follower = await Follower.findOne({accountID: client.id});
-
-        //         if (follower) {
-        //           return res
-        //             .status(400)
-        //             .json({ errors: [{ msg: 'Provider already exists' }] });
-        //         }
-          
-        //         follower = new Follower({
-        //           id
-        //         });         
-        //         await follower.save();
-        //     } catch(err){
-        //         return res.status(400).json({errors: [{ msg: 'failed to verify your account'}] })
-        //     }
-        // });        
-        // res.json(clients);
+        //const checked = await api.login(server, id, password);
         let follower = await Follower.findOne({ accountID: id });
 
         if (follower) {
@@ -121,9 +102,7 @@ router.post('/follower', async (req, res) => {
 router.post('/login', async (req, res) => {
     const { server, id, password } = req.body;
     try {
-        //api operation
-        // const clients = await api.login(server, id, password, category);
-        // res.json(clients);
+        // const checked = await api.login(server, id, password);
         let trader = await Provider.findOne({ accountID: id });
         if (trader) {
             return res.json({ category: 'provider', trader })
@@ -158,5 +137,7 @@ router.get('/provider/:id', async (req, res) => {
 
     }
 })
+
+//follow operation: follow(server, port, followerId, password, strategy, providerId)
 
 module.exports = router;

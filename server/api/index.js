@@ -185,7 +185,7 @@ module.exports.getProviders = function(server, port, id){
         console.log(error); 
         return; 
       } 
-      req.Get("/api/trading/getProviders?id="+id, function (error, res, body) { 
+      req.Get("/api/trading/getProviders?id="+id, function (error, res, body) {
           if (error) { 
             console.log(error); 
             return; 
@@ -232,7 +232,7 @@ module.exports.providerRegister = function(server, port, id, password, fee){
   });
 };
 
-module.exports.followerRegister = function(server, port, followerId, password, strategy, providerId){
+module.exports.follow = function(server, port, followerId, password, strategy, providerId){
   const req = new MT5Request(server, port);
   req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
       if (error) { 
@@ -276,7 +276,7 @@ module.exports.getmyinfo = function(server, port, id){
         return; 
       } 
 
-      req.Get("/api/trading/getInfo?id="+id, function (error, res, body) { 
+      req.Get("/api/trading/getInfo?id="+id, function (error, res, body) {
           if (error) { 
             console.log(error); 
             return;
