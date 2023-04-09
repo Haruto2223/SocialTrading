@@ -4,6 +4,8 @@ const Provider = require('../models/Provider');
 const Follower = require('../models/Follower');
 const auth = require('../middleware/auth');
 const jwt = require('jsonwebtoken');
+const Server = require('../models/servers');
+const api = require('../api');
 
 //Get Trader Info
 router.get('/', auth, async (req, res) => {
@@ -21,17 +23,22 @@ router.get('/', auth, async (req, res) => {
 })
 
 //Get All providers
-router.get('/provider/all', async (req, res) => {
-    try {
-        const clients = await api.getproviderall();
-        clients.map(async (client) => {
-            try {
-                const nick = await Provider.findOne({ id: client.id });
-                client.nickName = nick;
-            } catch (err) {
-
-            }
-        })
+router.get('/provider/all', async(req, res) => {
+    try{
+        var clients;
+        // select ip, port from Server
+        const array = Server.findById();
+        array.forEach(async(server) => {
+            clients.append(await api.getproviderall(server));
+            clients.map(async(client) => {
+                try{
+                    const nick =  await Provider.findOne({id: client.id});
+                    client.nickName = nick;
+                } catch(err){
+    
+                }
+            });            
+        });
         res.json(clients);
     } catch (err) {
         res.status(500).send('Server Error');
@@ -68,8 +75,27 @@ router.post('/provider', async (req, res) => {
 router.post('/follower', async (req, res) => {
     const { id, server, password } = req.body;
     try {
-        //api operation
+        // //api operation
         // const clients = await api.followerRegister(server, id, password, strategy, providerNickname);
+        // clients.map(async(client) => {
+        //     try{
+        //         let follower = await Follower.findOne({accountID: client.id});
+
+        //         if (follower) {
+        //           return res
+        //             .status(400)
+        //             .json({ errors: [{ msg: 'Provider already exists' }] });
+        //         }
+          
+        //         follower = new Follower({
+        //           id
+        //         });         
+        //         await follower.save();
+        //     } catch(err){
+        //         return res.status(400).json({errors: [{ msg: 'failed to verify your account'}] })
+        //     }
+        // });        
+        // res.json(clients);
         let follower = await Follower.findOne({ accountID: id });
 
         if (follower) {
@@ -84,7 +110,6 @@ router.post('/follower', async (req, res) => {
             if (err) throw err;
             return res.json({ token })
         })
-
     } catch (err) {
         console.log(err)
         res.status(500).send('Server Error');
