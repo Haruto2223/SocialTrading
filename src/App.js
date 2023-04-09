@@ -1,11 +1,11 @@
 // import logo from './logo.svg';
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
-// import setAuthToken from './APIService/setAuthToken';
+import setAuthToken from './APIService/setAuthToken';
 
 import SocialLogin from './pages/auth/SocialLogin';
 import FollowerRegister from './pages/auth/FollowerRegister';
@@ -14,18 +14,19 @@ import Dashboard from './pages/Dashboard'
 import Statistics from './pages/Statistics';
 import Widget from './pages/Widget';
 import Navbar from './components/dashboard/Navbar';
-import PrivateRoute from './PrivateRoute';
+import { traderLoad } from './actions/trader';
+// import PrivateRoute from './PrivateRoute';
 
 function App() {
-  // useEffect(() => {
-  //   if (localStorage.token) setAuthToken(localStorage.token);
+  useEffect(() => {
+    if (localStorage.token) setAuthToken(localStorage.token);
 
-  //   store.dispatch(loadUser());
+    store.dispatch(traderLoad());
 
-  //   window.addEventListener('storage', () => {
-  //     if (!localStorage.token) store.dispatch({ type: LOGOUT })
-  //   })
-  // }, [])
+    // window.addEventListener('storage', () => {
+    //   if (!localStorage.token) store.dispatch({ type: LOGOUT })
+    // })
+  }, [])
 
   return (
     <Provider store={store}>

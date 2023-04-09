@@ -2,10 +2,21 @@ const express = require('express');
 const router = express.Router();
 const Provider = require('../models/Provider');
 const Follower = require('../models/Follower');
+const auth = require('../middleware/auth');
 const jwt = require('jsonwebtoken');
 
 //Get Trader Info
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
+    try {
+        let trader = await Provider.findOne({ accountID: req.trader.id });
+        if (trader) {
+            return res.json({ category: 'provider', trader })
+        }
+        trader = await Follower.findOne({ accountID: req.trader.id });
+        return res.json({ category: 'follower', trader })
+    } catch (e) {
+        res.status(500).send('Server Error')
+    }
 
 })
 
@@ -23,7 +34,7 @@ router.get('/provider/all', async (req, res) => {
         })
         res.json(clients);
     } catch (err) {
-
+        res.status(500).send('Server Error');
     }
 })
 
@@ -42,7 +53,7 @@ router.post('/provider', async (req, res) => {
             server, nickname, fee, accountID: id
         })
         await provider.save();
-        const payload = { id };
+        const payload = { id, category: 'provider' };
         jwt.sign(payload, 'khs317', { expiresIn: '5 days' }, (err, token) => {
             if (err) throw err;
             res.json({ token })
@@ -68,7 +79,7 @@ router.post('/follower', async (req, res) => {
             accountID: id, server
         });
         await follower.save();
-        const payload = { id };
+        const payload = { id, category: 'follower' };
         jwt.sign(payload, 'khs317', { expiresIn: '5 days' }, (err, token) => {
             if (err) throw err;
             return res.json({ token })
@@ -82,13 +93,19 @@ router.post('/follower', async (req, res) => {
 
 //Provider || Follower login
 router.post('/login', async (req, res) => {
-    const { server, id, password, category } = req.body;
+    const { server, id, password } = req.body;
     try {
         //api operation
-        const clients = await api.login(server, id, password, category);
-        res.json(clients);
+        // const clients = await api.login(server, id, password, category);
+        // res.json(clients);
+        let trader = await Provider.findOne({ accountID: id });
+        if (trader) {
+            return res.json({ category: 'provider', trader })
+        }
+        trader = await Follower.findOne({ accountID: id });
+        return res.json({ category: 'follower', trader })
     } catch (err) {
-
+        res.status(500).send('Server Error');
     }
 })
 

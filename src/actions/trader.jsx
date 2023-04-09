@@ -1,4 +1,4 @@
-import { PROVIDER_REGISTER, TRADER_LOADED, REGISTER_FAIL, FOLLOWER_REGISTER } from "./types";
+import { PROVIDER_REGISTER, TRADER_LOADED, REGISTER_FAIL, FOLLOWER_REGISTER, TRADER_LOGIN } from "./types";
 import api from "../APIService/api";
 
 export const traderLoad = () => async(dispatch) => {
@@ -45,5 +45,19 @@ export const followerRegister = data => async(dispatch) => {
         dispatch({
             type: REGISTER_FAIL
         })
+    }
+}
+
+export const login = data => async(dispatch) => {
+    try {
+        const res = await api.post('/trader/login', data);
+        dispatch({
+            type: TRADER_LOGIN,
+            payload: res.data
+        });
+        dispatch(traderLoad());
+    } catch(e)
+    {
+
     }
 }
