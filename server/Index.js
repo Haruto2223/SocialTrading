@@ -1,10 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const trader = require('./routes/trader')
 
 const app = express();
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
-app.get('/', (req, res) => res.json({'msg': 'hello'}));
+app.use('/trader', trader);
 
 mongoose.connect('mongodb://127.0.0.1:27017')
     .then(() => console.log('MongoDB connected'))

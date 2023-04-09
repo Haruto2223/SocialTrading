@@ -1,14 +1,23 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema();
+const Schema = mongoose.Schema;
 
 const FollowerSchema = new Schema({
     accountID: {
         type: Number,
-        require: true
+        required: true
     },
-    provider: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'provider'
+    providers: [{
+        provider: {
+            type: Schema.Types.ObjectId,
+            ref: 'provider'
+        },
+        strategy: {
+            type: String
+        }
+    }],
+    server: {
+        type: String,
+        required: true
     }
 })
 

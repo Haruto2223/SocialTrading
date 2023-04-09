@@ -6,7 +6,7 @@ const ProviderSchema = new Schema({
         type: String,
         required: true
     },
-    nickName: {
+    nickname: {
         type: String,
         required: true
     },
