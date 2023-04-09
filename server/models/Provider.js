@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ProviderSchema = new Schema({
-    client: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'client'
-    },
     server: {
         type: String,
         required: true
@@ -15,6 +11,10 @@ const ProviderSchema = new Schema({
         required: true
     },
     fee: {
+        type: Number,
+        required: true
+    },
+    accountID: {
         type: Number,
         required: true
     }

@@ -160,39 +160,148 @@ MT5Request.prototype.Auth = function (login, password, build, agent, callback) {
   return (true); 
 }; 
 
-var req = new MT5Request("188.214.133.186", 443);
+// module.exports.getuserinfo = function(server, id){
+//     const req = new MT5Request(server, 443);
+//     req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
+//         if (error) { 
+//           console.log(error); 
+//           return; 
+//         } 
+//         req.Get("/api/user/get?login="+id, function (error, res, body) { 
+//             if (error) { 
+//               console.log(error); 
+//               return; 
+//             } 
+//             var answer = req.ParseBodyJSON(error, res, body, null);
+//             // console.log(body);
+//             return body;
+//         });
+//     });
+// };
 
-module.exports.getuserinfo = function(id){
-    req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
-        if (error) { 
-          console.log(error); 
-          return; 
-        } 
-        req.Get("/api/user/get?login="+id, function (error, res, body) { 
-            if (error) { 
-              console.log(error); 
-              return; 
-            } 
-            var answer = req.ParseBodyJSON(error, res, body, null);
-            // console.log(body);
-            return body;
-        });
-    });
-};
+// module.exports.getbalance = function(id){
+//     req.Auth(1016, "jin2022@", 3320, "manager",  (error) => { 
+//         if (error) { 
+//           console.log(error); 
+//           return; 
+//         } 
+//         req.Get("/api/user/check_balance?login=989023&fixflag=1", function (error, res, body) { 
+//             if (error) { 
+//             console.log(error); 
+//             return; 
+//             } 
+//             var answer = req.ParseBodyJSON(error, res, body, null);
+//             console.log(body); 
+//         });
+//     });
+// };
 
-module.exports.getbalance = function(id){
-    req.Auth(1016, "jin2022@", 3320, "manager",  (error) => { 
-        if (error) { 
-          console.log(error); 
-          return; 
-        } 
-        req.Get("/api/user/check_balance?login=989023&fixflag=1", function (error, res, body) { 
-            if (error) { 
+module.exports.getFollowers = function(id){
+  const req = new MT5Request('188.214.133.186', 443);
+  req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
+      if (error) { 
+        console.log(error); 
+        return; 
+      } 
+      req.Get("/api/trading/get?followerId="+id, function (error, res, body) { 
+          if (error) { 
             console.log(error); 
             return; 
-            } 
-            var answer = req.ParseBodyJSON(error, res, body, null);
-            console.log(body); 
-        });
-    });
+          } 
+          var answer = req.ParseBodyJSON(error, res, body, null);
+          return body;
+      });
+  });
+};
+
+module.exports.getProviders = function(id){
+  const req = new MT5Request('188.214.133.186', 443);
+  req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
+      if (error) { 
+        console.log(error); 
+        return; 
+      } 
+      req.Get("/api/trading/get?providerId="+id, function (error, res, body) { 
+          if (error) { 
+            console.log(error); 
+            return; 
+          } 
+          var answer = req.ParseBodyJSON(error, res, body, null);
+          return body;
+      });
+  });
+};
+
+module.exports.login = function(server, id, password, category){
+  const req = new MT5Request(server, 443);
+  req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
+      if (error) { 
+        console.log(error); 
+        return; 
+      } 
+      req.Get("/api/login/get?login="+id+"&password="+password+"&category="+category, function (error, res, body) { 
+          if (error) { 
+            console.log(error); 
+            return; 
+          } 
+          var answer = req.ParseBodyJSON(error, res, body, null);
+          return body;
+      });
+  });
+};
+
+module.exports.providerRegister = function(server, id, password, fee){
+  const req = new MT5Request(server, 443);
+  req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
+      if (error) { 
+        console.log(error); 
+        return; 
+      } 
+      req.Get("/api/register/provider?providerId="+id+"&password="+password+"&fee="+fee, function (error, res, body) { 
+          if (error) { 
+            console.log(error); 
+            return; 
+          } 
+          var answer = req.ParseBodyJSON(error, res, body, null);
+          return body;
+      });
+  });
+};
+
+module.exports.followerRegister = function(server, followerId, password, strategy, providerId){
+  const req = new MT5Request(server, 443);
+  req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
+      if (error) { 
+        console.log(error); 
+        return; 
+      } 
+
+      //must be POST
+      req.Get("/api/register/follower?followerId="+followerId+"&password="+password+"&=providerId"+providerId+"&strategy="+strategy, function (error, res, body) { 
+          if (error) { 
+            console.log(error); 
+            return; 
+          } 
+          return body;
+      });
+  });
+};
+
+module.exports.getproviderall = function(server){
+  const req = new MT5Request(server, 443);
+  req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
+      if (error) {
+        console.log(error); 
+        return; 
+      } 
+
+      //must be POST
+      req.Get("/api/trading/get?", function (error, res, body) { 
+          if (error) { 
+            console.log(error); 
+            return;
+          }
+          return body;
+      });
+  });
 };
