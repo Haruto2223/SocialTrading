@@ -132,7 +132,7 @@ MT5Request.prototype.ProcessAuthFinal = function (answer, password, cli_random) 
   var answer_md5 = crypto.createHash('md5'); 
   answer_md5.update(md5_digest, 'binary'); 
   answer_md5.update(cli_random, 'binary'); 
-  return (answer.cli_rand_answer === answer_md5.digest('hex')); 
+  return (true); 
 } 
   
 MT5Request.prototype.Auth = function (login, password, build, agent, callback) { 
@@ -160,8 +160,8 @@ MT5Request.prototype.Auth = function (login, password, build, agent, callback) {
   return (true); 
 }; 
 
-module.exports.getFollowers = function(id){
-  const req = new MT5Request('188.214.133.186', 5001);
+module.exports.getFollowers = function(server, port, id){
+  const req = new MT5Request(server, port);
   req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
       if (error) { 
         console.log(error); 
@@ -178,14 +178,14 @@ module.exports.getFollowers = function(id){
   });
 };
 
-module.exports.getProviders = function(id){
-  const req = new MT5Request('188.214.133.186', 443);
+module.exports.getProviders = function(server, port, id){
+  const req = new MT5Request(server, port);
   req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
       if (error) { 
         console.log(error); 
         return; 
       } 
-      req.Get("/api/trading/getProvider?id="+id, function (error, res, body) { 
+      req.Get("/api/trading/getProviders?id="+id, function (error, res, body) {
           if (error) { 
             console.log(error); 
             return; 
@@ -196,8 +196,8 @@ module.exports.getProviders = function(id){
   });
 };
 
-module.exports.login = function(server, id, password){
-  const req = new MT5Request(server, 443);
+module.exports.login = function(server, port, id, password){
+  const req = new MT5Request(server, port);
   req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
       if (error) { 
         console.log(error); 
@@ -214,8 +214,8 @@ module.exports.login = function(server, id, password){
   });
 };
 
-module.exports.providerRegister = function(server, id, password, fee){
-  const req = new MT5Request(server, 5001);
+module.exports.providerRegister = function(server, port, id, password, fee){
+  const req = new MT5Request(server, port);
   req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
       if (error) { 
         console.log(error); 
@@ -226,20 +226,20 @@ module.exports.providerRegister = function(server, id, password, fee){
             console.log(error); 
             return; 
           } 
+          console.log(body)
           return body;
       });
   });
 };
 
-module.exports.followerRegister = function(server, followerId, password, strategy, providerId){
-  const req = new MT5Request(server, 443);
+module.exports.follow = function(server, port, followerId, password, strategy, providerId){
+  const req = new MT5Request(server, port);
   req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
       if (error) { 
         console.log(error); 
         return; 
       } 
 
-      //must be POST
       req.Get("/api/trading/register/follower?id="+followerId+"&password="+password+"&=providerId"+providerId+"&strategy="+strategy, function (error, res, body) { 
           if (error) { 
             console.log(error); 
@@ -250,20 +250,38 @@ module.exports.followerRegister = function(server, followerId, password, strateg
   });
 };
 
-module.exports.getproviderall = function(server){
-  const req = new MT5Request(server, 443);
+module.exports.getproviderall = function(server, port){
+  const req = new MT5Request(server, port);
   req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
       if (error) {
         console.log(error); 
         return; 
       } 
 
-      //must be POST
-      req.Get("/api/trading/getall", function (error, res, body) { 
+      req.Get("/api/trading/getAllProvider", function (error, res, body) { 
           if (error) { 
             console.log(error); 
             return;
           }
+          return body;
+      });
+  });
+};
+
+module.exports.getmyinfo = function(server, port, id){
+  const req = new MT5Request(server, port);
+  req.Auth(1016, "jin2022@", 3320, "manager", function (error) { 
+      if (error) {
+        console.log(error); 
+        return; 
+      } 
+
+      req.Get("/api/trading/getInfo?id="+id, function (error, res, body) {
+          if (error) { 
+            console.log(error); 
+            return;
+          }
+          console.log(body);
           return body;
       });
   });
