@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
             if(err) {
                 return res.status(401).json({msg: 'Token invalid'});
             }
-            req.user = decoded.user;
+            req.trader = decoded
             next();
         })
     } catch(e)

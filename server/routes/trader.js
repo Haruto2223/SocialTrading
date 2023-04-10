@@ -10,6 +10,7 @@ const api = require('../api');
 //Get Trader Info
 router.get('/', auth, async (req, res) => {
     try {
+        console.log(req.trader.id)
         let trader = await Provider.findOne({ accountID: req.trader.id });
         if (trader) {
             return res.json({ category: 'provider', trader })
@@ -17,27 +18,28 @@ router.get('/', auth, async (req, res) => {
         trader = await Follower.findOne({ accountID: req.trader.id });
         return res.json({ category: 'follower', trader })
     } catch (e) {
+        console.log(e);
         res.status(500).send('Server Error')
     }
 
 })
 
 //Get All providers
-router.get('/provider/all', async(req, res) => {
-    try{
+router.get('/provider/all', async (req, res) => {
+    try {
         var clients;
         // select ip, port from Server
         const array = Server.findById();
-        array.forEach(async(server) => {
+        array.forEach(async (server) => {
             clients.append(await api.getproviderall(server));
-            clients.map(async(client) => {
-                try{
-                    const nick =  await Provider.findOne({id: client.id});
+            clients.map(async (client) => {
+                try {
+                    const nick = await Provider.findOne({ id: client.id });
                     client.nickName = nick;
-                } catch(err){
-    
+                } catch (err) {
+
                 }
-            });            
+            });
         });
         res.json(clients);
     } catch (err) {
@@ -86,7 +88,7 @@ router.post('/follower', async (req, res) => {
         //             .status(400)
         //             .json({ errors: [{ msg: 'Provider already exists' }] });
         //         }
-          
+
         //         follower = new Follower({
         //           id
         //         });         
@@ -125,10 +127,23 @@ router.post('/login', async (req, res) => {
         // res.json(clients);
         let trader = await Provider.findOne({ accountID: id });
         if (trader) {
-            return res.json({ category: 'provider', trader })
+            const payload = { id, category: 'provider' };
+            jwt.sign(payload, 'khs317', { expiresIn: '5 days' }, (err, token) => {
+                if (err) throw err;
+                return res.json({ token })
+            })
         }
-        trader = await Follower.findOne({ accountID: id });
-        return res.json({ category: 'follower', trader })
+        else {
+            trader = await Follower.findOne({ accountID: id });
+            if (trader) {
+                const payload = { id, category: 'follower' };
+                jwt.sign(payload, 'khs317', { expiresIn: '5 days' }, (err, token) => {
+                    if (err) throw err;
+                    return res.json({ token })
+                })
+            }
+            else res.status(404).json({msg: 'Trader not found'})
+        }
     } catch (err) {
         res.status(500).send('Server Error');
     }
@@ -157,5 +172,7 @@ router.get('/provider/:id', async (req, res) => {
 
     }
 })
+
+//
 
 module.exports = router;
