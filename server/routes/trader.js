@@ -11,13 +11,18 @@ const api = require('../api');
 router.get('/', auth, async (req, res) => {
     // await api.getmyinfo('192.168.112.95', 5001, id);
     try {
-        console.log(req.trader.id)
-        let trader = await Provider.findOne({ accountID: req.trader.id });
-        if (trader) {
-            return res.json({ category: 'provider', trader })
+        if (req.trader.category === 'provider') {
+            let trader = await Provider.findOne({ accountID: req.trader.id });
+            if (trader) {
+                return res.json({ trader, category: 'provider' })
+            }
+            return res.status(404).json({ msg: 'Trader not found' })
         }
         trader = await Follower.findOne({ accountID: req.trader.id });
-        return res.json({ category: 'follower', trader })
+        if (trader) {
+            return res.json({ category: 'follower', trader });
+        }
+
     } catch (e) {
         console.log(e);
         res.status(500).send('Server Error')
@@ -28,22 +33,8 @@ router.get('/', auth, async (req, res) => {
 //Get All providers
 router.get('/provider/all', async (req, res) => {
     try {
-        var clients;
-        // select ip, port from Server
-        // await api.getproviderall('192.168.112.95', 5001)
-        const array = Server.findById();
-        array.forEach(async (server) => {
-            clients.append(await api.getproviderall(server));
-            clients.map(async (client) => {
-                try {
-                    const nick = await Provider.findOne({ id: client.id });
-                    client.nickName = nick;
-                } catch (err) {
-
-                }
-            });
-        });
-        res.json(clients);
+        const providers = await Provider.find();
+        res.json(providers);
     } catch (err) {
         res.status(500).send('Server Error');
     }
@@ -54,11 +45,12 @@ router.post('/provider', async (req, res) => {
     const { server, id, password, nickname, fee } = req.body;
     try {
         //api operation
-        // const checked = await api.providerRegister('192.168.112.95', 5001, id, password, fee);
+        // const checked = api.providerRegister('192.168.112.95', 5001, id, password, fee);
+        // console.log(checked)
         // if(checked) 
         let provider = await Provider.findOne({ accountID: id });
         if (provider) {
-            return res.status(400).send({ msg: 'Already exists' })
+            return res.status(400).json({ msg: 'Already exists' })
         };
         provider = new Provider({
             server, nickname, fee, accountID: id
@@ -122,7 +114,7 @@ router.post('/login', async (req, res) => {
                     return res.json({ token })
                 })
             }
-            else res.status(404).json({msg: 'Trader not found'})
+            else res.status(404).json({ msg: 'Trader not found' })
         }
     } catch (err) {
         res.status(500).send('Server Error');
@@ -155,6 +147,64 @@ router.get('/provider/:id', async (req, res) => {
     }
 })
 
+//Get All of My Followers
+router.get('/provider', auth, async (req, res) => {
+    const followers = await Follower.find();
+    followers = followers.filter(follower => {
+        follower.providers.some(provider => provider.provider === req.trader.id)
+    });
+    res.json(followers)
+})
+
+//Get All of My Providers
+router.get('/follower', auth, async (req, res) => {
+    const follower = await Follower.findOne({ accountID: req.trader.id });
+    const providers = follower.providers.map(async (item) => {
+        const provider = await Provider.findOne({ accountID: item });
+        return provider;
+    })
+    res.json(providers)
+})
+
 //follow operation: follow(server, port, followerId, password, strategy, providerId)
+router.post('/follow', auth, async (req, res) => {
+    const [providerNickname, strategy] = req.body;
+    const provider = await Provider.findOne({ nickname: providerNickname });
+    const follower = await Follower.findOne({ accountID: req.trader.id });
+    if (follower.providers.some(item => item.provider === provider.id)) {
+        return res.status(400).json({ msg: 'Already followed' })
+    }
+    follower.providers.unshift({ provider: provider.id, strategy });
+    await follower.save();
+    res.json({ msg: 'Successfully followed' })
+})
+
+router.post('/fake', async (req, res) => {
+    for (let i = 0; i < 30; i++) {
+        const accountID = Math.floor(Math.random() * 10000);
+        const length = 6;
+
+        // Define all possible characters that could go into your string
+        const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        let nickname = '';
+
+        for (let k = length; k > 0; --k) {
+            // Generate a random index between 0 and the available character count
+            const randomIndex = Math.floor(Math.random() * chars.length);
+
+            // Add the randomly selected character to the result string
+            nickname += chars[randomIndex];
+        }
+        const server = 'MT5-Live1';
+        const fee = Math.floor(Math.random() * 100);
+        const data = [];
+        const password = 'rlagusdnd';
+        for (let j = 0; j < 7; j++) data.push(Math.floor(Math.random() * 1000));
+        const newProvider = new Provider({ accountID, server, fee, data, nickname, password });
+        await newProvider.save();
+    }
+    res.send('Success')
+})
 
 module.exports = router;

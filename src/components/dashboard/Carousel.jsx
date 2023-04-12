@@ -1,7 +1,7 @@
-import React, { Fragment } from "react";
-import Gallery from "./tip";
+import React from "react";
+import Gallery from "./Gallery";
 
-const BreadCrumb = () => {
+const Carousel = ({providers}) => {
 
     return (
         <>
@@ -10,10 +10,10 @@ const BreadCrumb = () => {
                 <p className="mt-10 col-start-2 text-center">MultiBank Group ranks traders based on their trading performance. Copy traders can select the best traders to copy, based on their capital and risk appetite.</p>
             </div>
             <div className="p-16">
-                <Gallery/>
+                <Gallery providers={providers}/>
             </div>
         </>
     )
 }
 
-export default BreadCrumb;
+export default Carousel;

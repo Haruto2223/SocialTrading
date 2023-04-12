@@ -5,9 +5,11 @@ import WidgetCard from '../components/widgetCard/WidgetCard';
 import { connect } from 'react-redux';
 // import Spinner from '../Spiner';
 
-const Widget = () => {
+const Widget = ({allProviders}) => {
     const { id } = useParams();
-    console.log(id);
+
+    const provider = allProviders.filter(item => item.accountID == id)[0]
+
     return (
         <>
             <div className='bg-slate-100'>
@@ -17,10 +19,14 @@ const Widget = () => {
                         <Link className='hover:text-indigo-600 border shadow-lg rounded-full p-3' to="/statistics">Go to leaderboard</Link>
                     </div>
                 </div>
-                <WidgetCard/>
+                <WidgetCard provider={provider}/>
             </div>
         </>
     )
 }
 
-export default connect(null, {})(Widget);
+const mapStateToProps = state => ({
+    allProviders: state.trader.allProviders
+})
+
+export default connect(mapStateToProps, {})(Widget);

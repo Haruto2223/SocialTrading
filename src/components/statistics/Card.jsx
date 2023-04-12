@@ -37,7 +37,7 @@ export const options = {
   },
 };
 
-const Card = ({ title, content, data, id }) => {
+const Card = ({ title, data, id }) => {
   const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 
   const tableData = {
@@ -73,9 +73,6 @@ const Card = ({ title, content, data, id }) => {
             className="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
             {title}
           </h5>
-          <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200">
-            {content}
-          </p>
         </div>
         <Line options={options} data={tableData} className='w-100 h-100' />
       </div>

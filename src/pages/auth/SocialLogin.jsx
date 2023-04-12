@@ -18,7 +18,7 @@ const SocialLogin = ({login, isAuthenticated}) => {
 
     if(isAuthenticated)
     {
-        return <Navigate to="/statistics"/>
+        return <Navigate to="/mypage"/>
     }
 
     return (

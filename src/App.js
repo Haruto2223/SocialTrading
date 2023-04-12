@@ -14,8 +14,10 @@ import Dashboard from './pages/Dashboard'
 import Statistics from './pages/Statistics';
 import Widget from './pages/Widget';
 import Navbar from './components/dashboard/Navbar';
+import MyPage from './pages/MyPage';
+import PrivateRoute from './PrivateRoute';
+
 import { traderLoad } from './actions/trader';
-// import PrivateRoute from './PrivateRoute';
 
 function App() {
   useEffect(() => {
@@ -39,6 +41,7 @@ function App() {
           <Route path='/register/follower' element={<FollowerRegister/>} />
           <Route path='/register/provider' element={<ProviderRegister/>} />
           <Route path='/widget/:id' element={<Widget/>} />
+          <Route path='/mypage' element={<PrivateRoute component={MyPage} />} />
         </Routes>
       </Router>
     </Provider>

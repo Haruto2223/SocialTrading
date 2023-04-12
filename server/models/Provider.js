@@ -17,6 +17,14 @@ const ProviderSchema = new Schema({
     accountID: {
         type: Number,
         required: true
+    },
+    data: {
+        type: [Number],
+        default: []
+    },
+    password: {
+        type: String,
+        required: true
     }
 })
 

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { providerRegister } from "../../actions/trader";
 
-const ProviderRegister = ({ providerRegister }) => {
+const ProviderRegister = ({ providerRegister, isAuthenticated }) => {
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
     const [nickname, setNickname] = useState('');
@@ -21,6 +21,11 @@ const ProviderRegister = ({ providerRegister }) => {
 
     const handleClick = () => {
         providerRegister({ id, password, nickname, server, fee });
+    }
+
+    if(isAuthenticated)
+    {
+        return <Navigate to="/mypage" />
     }
 
     return (
@@ -78,4 +83,8 @@ const ProviderRegister = ({ providerRegister }) => {
     )
 }
 
-export default connect(null, { providerRegister })(ProviderRegister);
+const mapStateToProps = state => ({
+    isAuthenticated: state.trader.isAuthenticated
+})
+
+export default connect(mapStateToProps, { providerRegister })(ProviderRegister);

@@ -1,4 +1,4 @@
-import { PROVIDER_REGISTER, FOLLOWER_REGISTER, TRADER_LOADED, TRADER_LOGIN } from "../actions/types";
+import { PROVIDER_REGISTER, FOLLOWER_REGISTER, TRADER_LOADED, TRADER_LOGIN, GET_TRADERS, GET_ALL_PROVIDERS } from "../actions/types";
 
 const initialState = {
     token: localStorage.getItem('token'),
@@ -7,6 +7,7 @@ const initialState = {
     trader: null,
     traders: [],
     loading: true,
+    allProviders: []
 }
 
 const traderReducer = (state = initialState, action) => {
@@ -41,6 +42,17 @@ const traderReducer = (state = initialState, action) => {
                 loading: false,
                 category: payload.category,
                 trader: payload.trader
+            }
+        case GET_TRADERS:
+            return {
+                ...state,
+                traders: payload
+            }
+        case GET_ALL_PROVIDERS:
+            return {
+                ...state,
+                allProviders: payload,
+                loading: false
             }
         default:
             return state;

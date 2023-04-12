@@ -3,18 +3,17 @@ import { Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Spinner from './Spiner';
 
-const PrivateRoute = ({
-  component: Component,
-  auth: { isAuthenticated, loading }
-}) => {
+const PrivateRoute = ({ component: Component, isAuthenticated, loading }) => {
+
   if (loading) return <Spinner />;
   if (isAuthenticated) return <Component />;
 
-  return <Navigate to="/login" />;
+  return <Navigate to="/sociallogin" />;
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth
+  isAuthenticated: state.trader.isAuthenticated,
+  loading: state.trader.loading
 });
 
 export default connect(mapStateToProps)(PrivateRoute);

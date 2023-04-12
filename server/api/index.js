@@ -1,4 +1,5 @@
-const https = require("https"); 
+const https1 = require("https"); 
+const axios = require('axios')
 const crypto = require('crypto'); 
 const buffer = require('buffer'); 
 // const { json } = require("stream/consumers");
@@ -10,6 +11,12 @@ function MT5Request(server, port) {
   this.https = new https.Agent(); 
   this.https.maxSockets = 1; // only one connection is used 
 } 
+
+const https = axios.create({
+  httpsAgent: new https1.Agent({  
+    rejectUnauthorized: false
+  })
+});
   
 MT5Request.prototype.Get = function (path, callback) { 
   var options = { 
