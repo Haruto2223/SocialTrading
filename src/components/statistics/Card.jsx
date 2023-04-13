@@ -1,57 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Filler,
-  Legend,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Filler,
-  Legend
-);
-
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top',
-    },
-    title: {
-      display: true,
-      text: 'Chart.js Line Chart',
-    },
-  },
-};
+import Chart from '../Chart';
 
 const Card = ({ title, data, id }) => {
-  const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-  const tableData = {
-    labels,
-    datasets: [
-      {
-        fill: true,
-        label: 'Dataset 2',
-        data,
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      },
-    ],
-  };
 
   return (
     <Link to={`/widget/${id}`} className="flex justify-center py-5">
@@ -74,7 +25,9 @@ const Card = ({ title, data, id }) => {
             {title}
           </h5>
         </div>
-        <Line options={options} data={tableData} className='w-100 h-100' />
+        <div>
+          <Chart data={data}/>
+        </div>
       </div>
     </Link>
   )

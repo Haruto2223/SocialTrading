@@ -1,4 +1,4 @@
-import { PROVIDER_REGISTER, TRADER_LOADED, REGISTER_FAIL, FOLLOWER_REGISTER, TRADER_LOGIN, GET_TRADERS, GET_ALL_PROVIDERS } from "./types";
+import { PROVIDER_REGISTER, TRADER_LOADED, REGISTER_FAIL, FOLLOWER_REGISTER, TRADER_LOGIN, GET_TRADERS, GET_ALL_PROVIDERS, LOGOUT, GET_PROVIDER_INFO } from "./types";
 import api from "../APIService/api";
 
 export const traderLoad = () => async(dispatch) => {
@@ -13,6 +13,21 @@ export const traderLoad = () => async(dispatch) => {
 
     }
 }
+
+export const getProviderInfo = (id) => async(dispatch) => {
+    try{
+        const res = await api.get(`/trader/provider/${id}`);
+        dispatch({
+            type: GET_PROVIDER_INFO,
+            payload: res.data
+        })
+    } catch(e)
+    {
+
+    }
+}
+
+export const logout = () => dispatch => dispatch({type: LOGOUT});
 
 export const providerRegister = data => async(dispatch) => {
     try {

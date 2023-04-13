@@ -18,6 +18,7 @@ import MyPage from './pages/MyPage';
 import PrivateRoute from './PrivateRoute';
 
 import { traderLoad } from './actions/trader';
+import { LOGOUT } from './actions/types';
 
 function App() {
   useEffect(() => {
@@ -25,9 +26,9 @@ function App() {
 
     store.dispatch(traderLoad());
 
-    // window.addEventListener('storage', () => {
-    //   if (!localStorage.token) store.dispatch({ type: LOGOUT })
-    // })
+    window.addEventListener('storage', () => {
+      if (!localStorage.token) store.dispatch({ type: LOGOUT })
+    })
   }, [])
 
   return (

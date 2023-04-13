@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { logout } from "../../actions/trader";
 
-const Navbar = () => {
+const Navbar = ({isAuthenticated, logout}) => {
 
     return (
         <nav className="bg-[#000850] border-gray-200 px-2 sm:px-4 py-7 rounded">
@@ -19,9 +20,14 @@ const Navbar = () => {
                             <li>
                                 <Link to="/statistics" className="py-2 pl-3 pr-4 text-white text-2xl rounded hover:text-[#BB914A]">LeaderBoard</Link>
                             </li>
-                            <li>
+                            {!isAuthenticated ? ( <li>
                                 <Link to="/sociallogin" className="py-2 pl-3 pr-4 text-white text-2xl rounded hover:text-[#BB914A]">Join Now</Link>
+                            </li>) : ( <><li>
+                                <Link to="/mypage" className="py-2 hover:cursor-pointer pl-3 pr-4 text-white text-2xl rounded hover:text-[#BB914A]">MyPage</Link>
                             </li>
+                            <li>
+                            <div onClick={logout} className="hover:cursor-pointer pl-3 pr-4 text-white text-2xl rounded hover:text-[#BB914A]">Logout</div>
+                        </li></>)}                           
                         </>
 
                     </ul>
@@ -32,4 +38,8 @@ const Navbar = () => {
     )
 }
 
-export default connect(null, {})(Navbar);
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+})
+
+export default connect(mapStateToProps, {logout})(Navbar);

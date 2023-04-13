@@ -84,7 +84,7 @@ const ProviderRegister = ({ providerRegister, isAuthenticated }) => {
 }
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.trader.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated
 })
 
 export default connect(mapStateToProps, { providerRegister })(ProviderRegister);

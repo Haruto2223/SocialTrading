@@ -12,13 +12,13 @@ router.get('/', auth, async (req, res) => {
     // await api.getmyinfo('192.168.112.95', 5001, id);
     try {
         if (req.trader.category === 'provider') {
-            let trader = await Provider.findOne({ accountID: req.trader.id });
+            let trader = await Provider.findById(req.trader.id);
             if (trader) {
                 return res.json({ trader, category: 'provider' })
             }
             return res.status(404).json({ msg: 'Trader not found' })
         }
-        trader = await Follower.findOne({ accountID: req.trader.id });
+        trader = await Follower.findById(req.trader.id);
         if (trader) {
             return res.json({ category: 'follower', trader });
         }
@@ -99,7 +99,7 @@ router.post('/login', async (req, res) => {
         // const checked = await api.login('192.168.112.95', 5001, id, password);
         let trader = await Provider.findOne({ accountID: id });
         if (trader) {
-            const payload = { id, category: 'provider' };
+            const payload = { id: trader.id, category: 'provider' };
             jwt.sign(payload, 'khs317', { expiresIn: '5 days' }, (err, token) => {
                 if (err) throw err;
                 return res.json({ token })
@@ -108,7 +108,7 @@ router.post('/login', async (req, res) => {
         else {
             trader = await Follower.findOne({ accountID: id });
             if (trader) {
-                const payload = { id, category: 'follower' };
+                const payload = { id: trader.id, category: 'follower' };
                 jwt.sign(payload, 'khs317', { expiresIn: '5 days' }, (err, token) => {
                     if (err) throw err;
                     return res.json({ token })
@@ -122,26 +122,28 @@ router.post('/login', async (req, res) => {
 })
 
 //Get all of my providers
-router.get('/follower/:id', async (req, res) => {
-    //await api.getProviders(server, port, id)
-    const id = req.params.id;
-    try {
-        //api operation
-        const clients = await api.getProviders(id);
-        res.json(clients);
-    } catch (err) {
+// router.get('/follower/:id', async (req, res) => {
+//     //await api.getProviders(server, port, id)
+//     const id = req.params.id;
+//     try {
+//         //api operation
+//         const clients = await api.getProviders(id);
+//         res.json(clients);
+//     } catch (err) {
 
-    }
-})
+//     }
+// })
 
-//Get all of my followers
+//Get Provider Info By ID
 router.get('/provider/:id', async (req, res) => {
     //await api.getFollowers(server, port, id)
     const id = req.params.id;
     try {
         //api operation
-        const clients = await api.getFollowers(id);
-        res.json(clients);
+        // const clients = await api.getFollowers(id);
+        // res.json(clients);
+        const provider = await Provider.findOne({accountID: id})
+        res.json(provider);
     } catch (err) {
 
     }
@@ -149,21 +151,37 @@ router.get('/provider/:id', async (req, res) => {
 
 //Get All of My Followers
 router.get('/provider', auth, async (req, res) => {
-    const followers = await Follower.find();
-    followers = followers.filter(follower => {
-        follower.providers.some(provider => provider.provider === req.trader.id)
-    });
-    res.json(followers)
+    let followers = await Follower.find();
+    let data = [];
+    for(let follower of followers)
+    {
+        if(follower.providers.some(provider => provider.provider == req.trader.id)) data.push(follower)
+    }
+    // let data = followers.filter(follower => {
+    //     follower.providers.some(provider => provider.provider == req.trader.id) == true
+    // });
+    res.json(data)
+    // res.json(followers)
 })
 
 //Get All of My Providers
 router.get('/follower', auth, async (req, res) => {
-    const follower = await Follower.findOne({ accountID: req.trader.id });
-    const providers = follower.providers.map(async (item) => {
-        const provider = await Provider.findOne({ accountID: item });
-        return provider;
-    })
-    res.json(providers)
+    try {
+        const follower = await Follower.findById(req.trader.id)
+        if(!follower)
+        {
+            return res.status(404).json({msg: 'Follower not found'})
+        }
+        const myFunction = async(item) =>  {
+            const provider = await Provider.findById(item.provider.toString());
+            return provider;
+        }
+        const providers = await Promise.all(follower.providers.map(myFunction));
+        res.json(providers)
+    } catch(e)
+    {
+        res.status(400).send('Server Error');
+    }
 })
 
 //follow operation: follow(server, port, followerId, password, strategy, providerId)
@@ -179,32 +197,62 @@ router.post('/follow', auth, async (req, res) => {
     res.json({ msg: 'Successfully followed' })
 })
 
-router.post('/fake', async (req, res) => {
-    for (let i = 0; i < 30; i++) {
-        const accountID = Math.floor(Math.random() * 10000);
-        const length = 6;
+//Fake Provider Maker
+// router.post('/fake', async (req, res) => {
+//     for (let i = 0; i < 30; i++) {
+//         const accountID = Math.floor(Math.random() * 10000);
+//         const length = 6;
 
-        // Define all possible characters that could go into your string
-        const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+//         // Define all possible characters that could go into your string
+//         const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-        let nickname = '';
+//         let nickname = '';
 
-        for (let k = length; k > 0; --k) {
-            // Generate a random index between 0 and the available character count
-            const randomIndex = Math.floor(Math.random() * chars.length);
+//         for (let k = length; k > 0; --k) {
+//             // Generate a random index between 0 and the available character count
+//             const randomIndex = Math.floor(Math.random() * chars.length);
 
-            // Add the randomly selected character to the result string
-            nickname += chars[randomIndex];
-        }
-        const server = 'MT5-Live1';
-        const fee = Math.floor(Math.random() * 100);
-        const data = [];
-        const password = 'rlagusdnd';
-        for (let j = 0; j < 7; j++) data.push(Math.floor(Math.random() * 1000));
-        const newProvider = new Provider({ accountID, server, fee, data, nickname, password });
-        await newProvider.save();
+//             // Add the randomly selected character to the result string
+//             nickname += chars[randomIndex];
+//         }
+//         const server = 'MT5-Live1';
+//         const fee = Math.floor(Math.random() * 100);
+//         const data = [];
+//         const password = 'rlagusdnd';
+//         for (let j = 0; j < 7; j++) data.push(Math.floor(Math.random() * 1000));
+//         const newProvider = new Provider({ accountID, server, fee, data, nickname, password });
+//         await newProvider.save();
+//     }
+//     res.send('Success')
+// })
+
+router.delete('/delete', async(req, res) => {
+    const followers = await Follower.find();
+    for(const fol of followers)
+    {
+        await Follower.findOneAndRemove({_id: fol.id})
     }
-    res.send('Success')
+    res.send('success')
+})
+
+//Fake Follower Maker
+router.post('/fake', async(req, res) => {
+    const providers = await Provider.find();
+    const strategyArray = ['Auto Scale', 'Fixed Lot', 'Copy Reverse']
+    for (const prov of providers)
+    {
+        for(let i = 0; i < 3; i++)
+        {
+            const accountID = Math.floor(Math.random() * 10000);
+            const server = 'MT5-Live1';
+            const strategyId = Math.floor(Math.random() * 3);
+            const follower = new Follower({
+                accountID, server, providers: {strategy: strategyArray[strategyId], provider: prov.id}
+            })
+            await follower.save();
+        }
+    }
+    res.send('success')
 })
 
 module.exports = router;

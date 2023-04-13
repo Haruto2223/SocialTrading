@@ -3,12 +3,20 @@ import Banner from '../components/statistics/Banner'
 import { Link, useParams } from 'react-router-dom';
 import WidgetCard from '../components/widgetCard/WidgetCard';
 import { connect } from 'react-redux';
-// import Spinner from '../Spiner';
+import { getProviderInfo } from '../actions/trader';
+import Spinner from '../Spiner';
 
-const Widget = ({allProviders}) => {
+const Widget = ({provider, getProviderInfo}) => {
     const { id } = useParams();
 
-    const provider = allProviders.filter(item => item.accountID == id)[0]
+    useEffect(() => {
+        getProviderInfo(id)
+    }, [getProviderInfo])
+
+    if(!provider)
+    {
+        return <Spinner/>
+    }
 
     return (
         <>
@@ -26,7 +34,7 @@ const Widget = ({allProviders}) => {
 }
 
 const mapStateToProps = state => ({
-    allProviders: state.trader.allProviders
+    provider: state.provider.provider
 })
 
-export default connect(mapStateToProps, {})(Widget);
+export default connect(mapStateToProps, {getProviderInfo})(Widget);

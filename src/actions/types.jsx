@@ -5,3 +5,5 @@ export const TRADER_LOADED = 'TRADER_LOADED';
 export const TRADER_LOGIN = 'TRADER_LOGIN';
 export const GET_TRADERS = 'GET_TRADERS';
 export const GET_ALL_PROVIDERS = 'GET_ALL_PROVIDERS';
+export const LOGOUT = 'LOGOUT';
+export const GET_PROVIDER_INFO = 'GET_PROVIDER_INFO'

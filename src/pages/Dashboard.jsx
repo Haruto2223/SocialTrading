@@ -4,9 +4,8 @@ import WorkContext from "../components/dashboard/WorkContext";
 import Carousel from "../components/dashboard/Carousel";
 import { getAllProviders } from "../actions/trader";
 import { connect } from "react-redux";
-import { Spinner } from "flowbite-react";
 
-const DashBoard = ({getAllProviders, loading, allProviders}) => {
+const DashBoard = ({getAllProviders, allProviders}) => {
 
     useEffect(() => {
         getAllProviders()
@@ -23,8 +22,7 @@ const DashBoard = ({getAllProviders, loading, allProviders}) => {
 }
 
 const mapStateToProps = state => ({
-    loading: state.trader.loading,
-    allProviders: state.trader.allProviders
+    allProviders: state.provider.allProviders
 })
 
 export default connect(mapStateToProps, {getAllProviders})(DashBoard);

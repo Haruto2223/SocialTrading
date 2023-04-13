@@ -1,4 +1,7 @@
-const TabPanel = () => {
+import { connect } from "react-redux";
+import Chart from "../Chart";
+
+const TabPanel = ({ provider }) => {
     return (
         <>
             <ul className="flex list-none flex-row flex-wrap border-b-4 pl-0 text-center" role="tablist" data-te-nav-ref>
@@ -86,6 +89,9 @@ const TabPanel = () => {
                             <p className="mt-2 text-sm">All time</p>
                         </div>
                     </div>
+                    <div className="w-[70%] mx-auto">
+                        <Chart data={provider.data} />
+                    </div>
                 </div>
                 <div className="hidden opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
                     id="tabs-profile01"
@@ -110,4 +116,8 @@ const TabPanel = () => {
     )
 }
 
-export default TabPanel;
+const mapStateToProps = state => ({
+    provider: state.provider.provider
+})
+
+export default connect(mapStateToProps, {})(TabPanel);

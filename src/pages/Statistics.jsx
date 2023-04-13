@@ -1,12 +1,8 @@
 import Banner from "../components/statistics/Banner";
 import MainBoard from "../components/statistics/MainBoard";
-import React, {useEffect} from "react";
-import { connect } from "react-redux";
+import React from "react";
 
 const Statistics = () => {
-    // useEffect(() => {
-    //     findAllUsers();
-    // }, [findAllUsers])
 
     return (
         <>
@@ -16,4 +12,4 @@ const Statistics = () => {
     )
 }
 
-export default connect(null, {})(Statistics);
+export default Statistics;
