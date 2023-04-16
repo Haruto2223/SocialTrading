@@ -8,8 +8,8 @@ import { connect } from "react-redux";
 const DashBoard = ({getAllProviders, allProviders}) => {
 
     useEffect(() => {
-        getAllProviders()
-    }, [getAllProviders])
+        getAllProviders();
+    }, [getAllProviders]);
     return (
         <>
             <WorkContext />

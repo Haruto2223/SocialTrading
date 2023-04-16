@@ -17,7 +17,7 @@ const ProviderTable = ({ providers }) => {
                             </thead>
                             <tbody>
                                 {providers.map((provider, index) => (
-                                    <tr className={`bg-${colors[index % 6]}-100 border-${colors[index % 6]}-200`}>
+                                    <tr key={provider.id} className={`bg-${colors[index % 6]}-100 border-${colors[index % 6]}-200`}>
                                         <td className="whitespace-nowrap px-6 py-4 font-medium">
                                             {index + 1}
                                         </td>
