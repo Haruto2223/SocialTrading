@@ -7,7 +7,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use('/trader', trader);
 
-mongoose.connect('mongodb://192.168.112.96:27017')
+mongoose.connect('mongodb://localhost:27017')
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.log('Database Error'))
 
